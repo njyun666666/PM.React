@@ -1,3 +1,4 @@
+import './i18n/config';
 import { RouterProvider } from 'react-router-dom';
 import router from './router';
 import { HelmetProvider } from 'react-helmet-async';

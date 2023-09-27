@@ -1,0 +1,11 @@
+{
+  "website": {
+    "title": "PM"
+  },
+  "login": {
+    "title": "登入",
+    "email": "Email",
+    "password": "密碼",
+    "login": "登入"
+  }
+}

@@ -12,8 +12,11 @@ import { Input } from 'src/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from 'src/components/ui/button';
 import { z } from 'zod';
+import { useTranslation } from 'react-i18next';
 
 const LoginPage = () => {
+  const { t } = useTranslation();
+
   const formSchema = z.object({
     email: z.string().email().trim().min(1, { message: 'Required' }).toLowerCase(),
     password: z.string().trim().min(1, { message: 'Required' }),
@@ -34,10 +37,10 @@ const LoginPage = () => {
   };
 
   return (
-    <Page title="Login">
+    <Page title={t('login.title')}>
       <div className="flex h-screen w-full flex-col items-center">
         <div className="mb-16 mt-8">
-          <h1 className="text-2xl font-bold">PM</h1>
+          <h1 className="text-2xl font-bold">{t('website.title')}</h1>
         </div>
 
         <div className="w-full p-2 md:w-2/5">
@@ -48,7 +51,7 @@ const LoginPage = () => {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>EMail</FormLabel>
+                    <FormLabel>{t('login.email')}</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
@@ -62,7 +65,7 @@ const LoginPage = () => {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>{t('login.password')}</FormLabel>
                     <FormControl>
                       <Input {...field} type="password" />
                     </FormControl>
@@ -72,7 +75,7 @@ const LoginPage = () => {
               />
 
               <Button type="submit" className="w-full">
-                Login
+                {t('login.login')}
               </Button>
             </form>
           </Form>

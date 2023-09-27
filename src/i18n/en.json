@@ -1,0 +1,11 @@
+{
+  "website": {
+    "title": "PM"
+  },
+  "login": {
+    "title": "Login",
+    "email": "Email",
+    "password": "Password",
+    "login": "Login"
+  }
+}
