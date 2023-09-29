@@ -1,9 +1,12 @@
 import './i18n/config';
 import { RouterProvider } from 'react-router-dom';
 import router from './router';
-import { HelmetProvider } from 'react-helmet-async';
+import { useSetRecoilState } from 'recoil';
+import { login } from './lib/services/login';
 
 const App = () => {
+  login.setLoginState = useSetRecoilState(login.loginState);
+
   localStorage.theme = 'dark';
 
   if (localStorage.theme === 'light') {
@@ -12,11 +15,7 @@ const App = () => {
     document.documentElement.classList.add('dark');
   }
 
-  return (
-    <HelmetProvider>
-      <RouterProvider router={router} />
-    </HelmetProvider>
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default App;

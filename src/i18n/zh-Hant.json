@@ -4,8 +4,15 @@
   },
   "login": {
     "title": "登入",
-    "email": "Email",
-    "password": "密碼",
     "login": "登入"
+  },
+  "field": {
+    "error": "error",
+    "email": "Email",
+    "password": "密碼"
+  },
+  "messages": {
+    "required": "必填",
+    "Login Failed": "登入失敗"
   }
 }

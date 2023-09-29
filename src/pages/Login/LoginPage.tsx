@@ -13,13 +13,33 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from 'src/components/ui/button';
 import { z } from 'zod';
 import { useTranslation } from 'react-i18next';
+import { login } from 'src/lib/services/login';
+import { useSetRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
+import FieldMessage from 'src/components/FieldMessage';
+import { useState } from 'react';
+import { ResponseErrors } from 'src/lib/api/pmAPI';
+import { Alert, AlertDescription } from 'src/components/ui/alert';
+import { AlertCircle } from 'lucide-react';
+import { AxiosError } from 'axios';
 
 const LoginPage = () => {
   const { t } = useTranslation();
+  const setLoginState = useSetRecoilState(login.loginState);
+  const navigate = useNavigate();
+  const [error, setError] = useState<ResponseErrors>();
 
   const formSchema = z.object({
-    email: z.string().email().trim().min(1, { message: 'Required' }).toLowerCase(),
-    password: z.string().trim().min(1, { message: 'Required' }),
+    email: z
+      .string()
+      .email()
+      .trim()
+      .min(1, { message: t('messages.required') })
+      .toLowerCase(),
+    password: z
+      .string()
+      .trim()
+      .min(1, { message: t('messages.required') }),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -30,20 +50,36 @@ const LoginPage = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    await login
+      .login(values)
+      .then(({ data }) => {
+        login.setToken(data);
+        setLoginState(true);
+        navigate('/', { replace: true });
+      })
+      .catch((error: AxiosError<ResponseErrors>) => {
+        setError(error.response?.data);
+      });
   };
 
   return (
     <Page title={t('login.title')}>
-      <div className="flex h-screen w-full flex-col items-center">
+      <div className="flex h-screen w-full flex-col items-center p-2">
         <div className="mb-16 mt-8">
           <h1 className="text-2xl font-bold">{t('website.title')}</h1>
         </div>
 
-        <div className="w-full p-2 md:w-2/5">
+        <div className="w-full md:w-2/5">
+          {error && (
+            <Alert variant="destructive" className="mb-8">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>
+                <FieldMessage messages={error.errors} />
+              </AlertDescription>
+            </Alert>
+          )}
+
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <FormField
@@ -51,7 +87,7 @@ const LoginPage = () => {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t('login.email')}</FormLabel>
+                    <FormLabel>{t('field.email')}</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
@@ -65,7 +101,7 @@ const LoginPage = () => {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t('login.password')}</FormLabel>
+                    <FormLabel>{t('field.password')}</FormLabel>
                     <FormControl>
                       <Input {...field} type="password" />
                     </FormControl>
