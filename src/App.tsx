@@ -7,12 +7,12 @@ import { login } from './lib/services/login';
 const App = () => {
   login.setLoginState = useSetRecoilState(login.loginState);
 
-  localStorage.theme = 'dark';
+  // localStorage.theme = 'dark';
 
-  if (localStorage.theme === 'light') {
-    document.documentElement.classList.remove('dark');
-  } else {
+  if (localStorage.theme === 'dark') {
     document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
   }
 
   return <RouterProvider router={router} />;
