@@ -44,17 +44,11 @@ export interface ButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ disabled, className, variant, size, state, setState, children, ...props }, ref) => {
-    const clearState = () => {
-      if (setState) {
+    React.useEffect(() => {
+      if (state && setState && ['success', 'error'].includes(state)) {
         setTimeout(() => {
           setState(undefined);
         }, 2000);
-      }
-    };
-
-    React.useEffect(() => {
-      if (state && ['success', 'error'].includes(state)) {
-        clearState();
       }
     }, [state]);
 

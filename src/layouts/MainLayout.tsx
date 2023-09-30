@@ -22,6 +22,7 @@ const MainLayout = () => {
       <h1>MainLayout</h1>
       <div className=" space-x-5">
         <Link to={'/'}>dashboard</Link>
+        <Link to={'/login'}>login</Link>
       </div>
       <div className="p-2">
         <Outlet />
