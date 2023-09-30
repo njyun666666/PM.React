@@ -1,10 +1,14 @@
 import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
-
 import { cn } from 'src/lib/utils';
+import { Check, Loader2, X } from 'lucide-react';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+  [
+    'inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors ',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+    'disabled:pointer-events-none disabled:opacity-50',
+  ],
   {
     variants: {
       variant: {
@@ -29,14 +33,45 @@ const buttonVariants = cva(
   }
 );
 
+export type ButtonStateType = 'loading' | 'success' | 'error' | undefined;
+
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {}
+    VariantProps<typeof buttonVariants> {
+  state?: ButtonStateType;
+  setState?: React.Dispatch<React.SetStateAction<ButtonStateType>>;
+}
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, ...props }, ref) => {
+  ({ disabled, className, variant, size, state, setState, children, ...props }, ref) => {
+    const clearState = () => {
+      if (setState) {
+        setTimeout(() => {
+          setState(undefined);
+        }, 2000);
+      }
+    };
+
+    React.useEffect(() => {
+      if (state && ['success', 'error'].includes(state)) {
+        clearState();
+      }
+    }, [state]);
+
     return (
-      <button className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />
+      <button
+        className={cn(buttonVariants({ variant, size, className }))}
+        ref={ref}
+        disabled={disabled || !!state}
+        {...props}
+      >
+        <>
+          {!state && children}
+          {state === 'loading' && <Loader2 className="h-4 w-4 animate-spin" />}
+          {state === 'success' && <Check className="h-4 w-4" />}
+          {state === 'error' && <X className="h-4 w-4" />}
+        </>
+      </button>
     );
   }
 );

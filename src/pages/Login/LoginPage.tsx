@@ -10,7 +10,7 @@ import {
 } from 'src/components/ui/form';
 import { Input } from 'src/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from 'src/components/ui/button';
+import { Button, ButtonStateType } from 'src/components/ui/button';
 import { z } from 'zod';
 import { useTranslation } from 'react-i18next';
 import { login } from 'src/lib/services/login';
@@ -28,6 +28,7 @@ const LoginPage = () => {
   const setLoginState = useSetRecoilState(login.loginState);
   const navigate = useNavigate();
   const [error, setError] = useState<ResponseErrors>();
+  const [loginBtnState, setLoginBtnState] = useState<ButtonStateType>();
 
   const formSchema = z.object({
     email: z
@@ -51,6 +52,8 @@ const LoginPage = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setLoginBtnState('loading');
+
     await login
       .login(values)
       .then(({ data }) => {
@@ -61,6 +64,8 @@ const LoginPage = () => {
       .catch((error: AxiosError<ResponseErrors>) => {
         setError(error.response?.data);
       });
+
+    setLoginBtnState(undefined);
   };
 
   return (
@@ -110,7 +115,12 @@ const LoginPage = () => {
                 )}
               />
 
-              <Button type="submit" className="w-full">
+              <Button
+                type="submit"
+                state={loginBtnState}
+                setState={setLoginBtnState}
+                className="w-full"
+              >
                 {t('login.login')}
               </Button>
             </form>

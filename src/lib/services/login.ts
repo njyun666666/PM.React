@@ -16,7 +16,7 @@ export interface RefreshTokenModel {
   refresh_token: 'string';
 }
 
-interface accounModel extends JwtPayload {
+interface UserPayload extends JwtPayload {
   uid: string;
   photoURL?: string;
 }
@@ -41,10 +41,10 @@ class Login {
     } as LoginViewModel;
   }
 
-  payload(): accounModel | undefined {
+  payload() {
     const access_token = this.getToken().access_token;
     if (access_token) {
-      return jwtDecode(access_token) as accounModel;
+      return jwtDecode(access_token) as UserPayload;
     }
   }
 
