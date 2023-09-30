@@ -78,7 +78,7 @@ const MainLayout = () => {
         </ScrollArea>
       </nav>
 
-      <main className="absolute top-12 h-[calc(100%-theme(height.12))] w-full overflow-hidden bg-foreground/10 pl-64">
+      <main className="absolute top-12 h-[calc(100%-theme(height.12))] w-full overflow-hidden bg-foreground/5 pl-64">
         <ScrollArea className="h-full w-full p-2">
           <ScrollBar orientation="horizontal" />
           <Outlet />
