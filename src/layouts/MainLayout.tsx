@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
+import Brand from 'src/components/Brand';
 import { ScrollArea, ScrollBar } from 'src/components/ui/scroll-area';
 import { login } from 'src/lib/services/login';
+import UserNav from './UserNav';
 
 const MainLayout = () => {
   const navigate = useNavigate();
@@ -20,8 +22,14 @@ const MainLayout = () => {
 
   return (
     <div className="fixed h-full w-full overflow-hidden">
-      <header className="flex h-12 w-full items-center overflow-hidden border-b bg-background p-2">
-        <h1>MainLayout</h1>
+      <header className="flex h-12 w-full items-center space-x-2 overflow-hidden border-b bg-background p-2">
+        <div>
+          <Brand />
+        </div>
+        <div className="grow"></div>
+        <div>
+          <UserNav />
+        </div>
       </header>
 
       <nav className="absolute left-0 top-12 z-10 h-[calc(100%-theme(height.12))] w-64 overflow-hidden bg-background">
@@ -78,8 +86,8 @@ const MainLayout = () => {
         </ScrollArea>
       </nav>
 
-      <main className="absolute top-12 h-[calc(100%-theme(height.12))] w-full overflow-hidden bg-foreground/5 pl-64">
-        <ScrollArea className="h-full w-full p-2">
+      <main className="absolute left-0 top-12 h-[calc(100%-theme(height.12))] w-full overflow-hidden bg-foreground/5 pl-64">
+        <ScrollArea className="h-full w-full px-3 py-2">
           <ScrollBar orientation="horizontal" />
           <Outlet />
         </ScrollArea>

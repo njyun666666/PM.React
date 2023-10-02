@@ -7,7 +7,9 @@ import { login } from './lib/services/login';
 const App = () => {
   login.setLoginState = useSetRecoilState(login.loginState);
 
-  // localStorage.theme = 'dark';
+  if (!localStorage.theme) {
+    localStorage.theme = 'dark';
+  }
 
   if (localStorage.theme === 'dark') {
     document.documentElement.classList.add('dark');

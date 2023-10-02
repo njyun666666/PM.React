@@ -6,6 +6,13 @@
     "title": "登入",
     "login": "登入"
   },
+  "UserNav": {
+    "Language": "語言",
+    "Theme": "主題",
+    "Light": "淺色",
+    "Dark": "深色",
+    "Logout": "登出"
+  },
   "field": {
     "error": "error",
     "email": "Email",

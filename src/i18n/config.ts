@@ -14,9 +14,7 @@ export const resources = {
 
 i18n.use(initReactI18next).init({
   resources: resources,
-  lng:
-    localStorage.getItem('lang') ||
-    (navigator.language.toLowerCase().startsWith('zh') ? 'zh-Hant' : 'en'),
+  lng: localStorage.lang || (navigator.language.toLowerCase().startsWith('zh') ? 'zh-Hant' : 'en'),
   fallbackLng: 'zh-Hant',
   interpolation: {
     escapeValue: false,
@@ -26,9 +24,9 @@ i18n.use(initReactI18next).init({
 // i18n.changeLanguage("zh-Hant");
 
 document.documentElement.setAttribute('lang', i18n.language);
-localStorage.setItem('lang', i18n.language);
+localStorage.lang = i18n.language;
 
 i18n.on('languageChanged', (lng) => {
   document.documentElement.setAttribute('lang', lng);
-  localStorage.setItem('lang', i18n.language);
+  localStorage.lang = i18n.language;
 });

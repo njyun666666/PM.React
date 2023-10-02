@@ -22,6 +22,7 @@ import { ResponseErrors } from 'src/lib/api/pmAPI';
 import { Alert, AlertDescription } from 'src/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
 import { AxiosError } from 'axios';
+import Brand from 'src/components/Brand';
 
 const LoginPage = () => {
   const { t } = useTranslation();
@@ -72,7 +73,7 @@ const LoginPage = () => {
     <Page title={t('login.title')}>
       <div className="flex h-screen w-full flex-col items-center p-2">
         <div className="mb-16 mt-8">
-          <h1 className="text-2xl font-bold">{t('website.title')}</h1>
+          <Brand />
         </div>
 
         <div className="w-full md:w-2/5">
