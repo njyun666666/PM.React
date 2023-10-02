@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import Brand from 'src/components/Brand';
 import { ScrollArea, ScrollBar } from 'src/components/ui/scroll-area';
 import { login } from 'src/lib/services/login';
 import UserNav from './UserNav';
+import Nav from './Nav';
 
 const MainLayout = () => {
   const navigate = useNavigate();
@@ -33,56 +34,8 @@ const MainLayout = () => {
       </header>
 
       <nav className="absolute left-0 top-12 z-10 h-[calc(100%-theme(height.12))] w-64 overflow-hidden bg-background">
-        <ScrollArea className="h-full w-full p-2">
-          <div className="flex flex-col space-y-5">
-            <Link to={'/'}>dashboard</Link>
-            {/* <Link to={'/login'}>login</Link> */}
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard dashboard a a a a aa a dashboard dashboard </Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>dashboard</Link>
-            <Link to={'/'}>---end---</Link>
-          </div>
+        <ScrollArea className="h-full w-full p-1">
+          <Nav />
         </ScrollArea>
       </nav>
 
