@@ -17,6 +17,14 @@ const router = createBrowserRouter([
         path: '/d2',
         element: <D2Page />,
       },
+      {
+        path: '/d2-2',
+        element: <D2Page />,
+      },
+      {
+        path: '/d3-2-1',
+        element: <D2Page />,
+      },
     ],
   },
   {

@@ -6,10 +6,11 @@ import { ScrollArea, ScrollBar } from 'src/components/ui/scroll-area';
 import { login } from 'src/lib/services/login';
 import UserNav from './UserNav';
 import Nav from './Nav';
-import { ScreenEnum, useScreenMode, webSettings } from 'src/lib/services/webSettings';
+import { webSettings } from 'src/lib/services/webSettings';
 import { cn } from 'src/lib/utils';
 import { ChevronsRight, Menu } from 'lucide-react';
 import { Button } from 'src/components/ui/button';
+import { ScreenEnum, useScreenMode } from 'src/lib/services/common';
 
 const MainLayout = () => {
   const navigate = useNavigate();

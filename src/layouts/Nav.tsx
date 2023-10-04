@@ -1,5 +1,6 @@
 import { Building, Home, KanbanSquare, LucideIcon } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { useMemo } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import {
   Accordion,
@@ -15,7 +16,6 @@ interface NavDataModel {
   MenuName: string;
   Icon: LucideIcon;
   URL?: string;
-  state?: boolean;
   children?: NavDataModel[];
 }
 
@@ -25,7 +25,29 @@ const iconMapping = {
   KanbanSquare,
 };
 
+const findChildren = (data: NavDataModel[], targetValue: string): NavDataModel[] => {
+  let result: NavDataModel[] = [];
+  const length = data.length;
+
+  for (let i = 0; i < length; i++) {
+    if (data[i].URL === targetValue) {
+      result = [data[i]];
+      break;
+    } else if (data[i].children) {
+      const resultChildren = findChildren(data[i].children as NavDataModel[], targetValue);
+      if (resultChildren.length > 0) {
+        result = [data[i], ...resultChildren];
+        break;
+      }
+    }
+  }
+
+  return result;
+};
+
 const Nav = () => {
+  const location = useLocation();
+
   const menus: NavDataModel[] = [
     {
       MenuID: '1',
@@ -48,7 +70,7 @@ const Nav = () => {
           MenuID: '2-2',
           MenuName: '2-2',
           Icon: Building,
-          URL: '/d2',
+          URL: '/d2-2',
         },
       ],
     },
@@ -73,7 +95,7 @@ const Nav = () => {
               MenuID: '3-2-1',
               MenuName: '3-2-1',
               Icon: KanbanSquare,
-              URL: '/3-2-1',
+              URL: '/d3-2-1',
             },
             {
               MenuID: '3-2-2',
@@ -87,10 +109,15 @@ const Nav = () => {
     },
   ];
 
+  const expandedValue = useMemo(
+    () => findChildren(menus, location.pathname).map((item) => item.MenuID),
+    []
+  );
+
   return (
-    <Accordion type="multiple" className="w-full">
+    <Accordion type="multiple" className="w-full" defaultValue={expandedValue}>
       {menus.map((item) => (
-        <NavItem key={item.MenuID} data={item} />
+        <NavItem key={item.MenuID} data={item} expandedValue={expandedValue} />
       ))}
     </Accordion>
   );
@@ -98,9 +125,10 @@ const Nav = () => {
 
 interface NavItemProps {
   data: NavDataModel;
+  expandedValue: string[];
 }
 
-const NavItem = ({ data }: NavItemProps) => {
+const NavItem = ({ data, expandedValue }: NavItemProps) => {
   const [navExpandedState, setNavExpandedState] = useRecoilState(webSettings.navExpandedState);
   const [navOpenState, setNavOpenState] = useRecoilState(webSettings.navOpenState);
   const [navDefaultExpanded] = useRecoilState(webSettings.navDefaultExpandedState);
@@ -108,56 +136,72 @@ const NavItem = ({ data }: NavItemProps) => {
   if (!data.children || data.children.length === 0) {
     return (
       <AccordionItem value={data.MenuID} className="mb-1.5 border-0">
-        <Link
+        <NavLink
           to={data.URL as string}
-          className="flex items-center rounded p-0 pr-1 text-base font-medium hover:bg-accent"
+          className={({ isActive }) =>
+            cn('flex items-center rounded p-0 pr-1 text-base font-normal hover:bg-accent', {
+              'navIsActive group': isActive,
+              '!bg-accent': isActive && (navOpenState || navExpandedState),
+              'xl:bg-accent': isActive && navDefaultExpanded,
+            })
+          }
           onClick={() => {
             setNavExpandedState(false);
             setNavOpenState(false);
           }}
         >
-          <span className="rounded p-3">
+          <span
+            className={cn(
+              'rounded p-3 group-[.navIsActive]:bg-accent group-[.navIsActive]:text-primary'
+            )}
+          >
             <data.Icon className="h-4 w-4 shrink-0" />
           </span>
           <span
-            className={cn('text-transparent duration-200 group-hover/nav:text-foreground', {
-              'text-foreground': navOpenState,
-              'xl:text-foreground': navExpandedState || navDefaultExpanded,
-            })}
+            className={cn(
+              'text-foreground opacity-0 duration-200 group-[.navIsActive]:font-bold group-[.navIsActive]:text-primary',
+              {
+                'opacity-100': navOpenState || navExpandedState,
+                'xl:opacity-100': navDefaultExpanded,
+              }
+            )}
           >
             {data.MenuName}
           </span>
-        </Link>
+        </NavLink>
       </AccordionItem>
     );
   }
 
   return (
     <AccordionItem value={data.MenuID} className="border-0">
-      <AccordionTrigger className="mb-1.5 flex items-center rounded p-0 pr-1 text-base font-medium hover:bg-accent hover:no-underline">
+      <AccordionTrigger className="mb-1.5 flex items-center rounded p-0 pr-1 text-base font-normal hover:bg-accent hover:no-underline">
         <div className="flex items-center">
           <span className="rounded p-3">
-            <data.Icon className="h-4 w-4 shrink-0 " />
+            <data.Icon className="h-4 w-4 shrink-0" />
           </span>
           <span
-            className={cn('text-transparent duration-200 group-hover/nav:text-foreground', {
-              'text-foreground': navOpenState,
-              'xl:text-foreground': navExpandedState || navDefaultExpanded,
-            })}
+            className={cn(
+              'text-foreground opacity-0 duration-200 group-[.navIsActive]:text-primary',
+              {
+                'opacity-100': navOpenState || navExpandedState,
+                'xl:opacity-100': navDefaultExpanded,
+              }
+            )}
           >
             {data.MenuName}
           </span>
         </div>
       </AccordionTrigger>
       <AccordionContent
-        className={cn('text-base', 'pl-0 group-hover/nav:pl-3', {
-          'pl-3': navOpenState,
-          'xl:pl-3': navExpandedState || navDefaultExpanded,
+        className={cn('pl-0 text-base group-hover/nav:pl-3', {
+          'pl-3': navOpenState || navExpandedState,
+          'xl:pl-3': navDefaultExpanded,
         })}
       >
-        <Accordion type="multiple" className="w-full">
+        <Accordion type="multiple" className="w-full" defaultValue={expandedValue}>
           {data.children.map((item) => (
-            <NavItem key={item.MenuID} data={item} />
+            <NavItem key={item.MenuID} data={item} expandedValue={expandedValue} />
           ))}
         </Accordion>
       </AccordionContent>
