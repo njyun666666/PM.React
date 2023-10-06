@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from 'src/lib/utils';
-import { Check, Loader2, X } from 'lucide-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck, faCircle, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 const buttonVariants = cva(
   [
@@ -61,9 +62,15 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       >
         <>
           {!state && children}
-          {state === 'loading' && <Loader2 className="h-4 w-4 animate-spin" />}
-          {state === 'success' && <Check className="h-4 w-4" />}
-          {state === 'error' && <X className="h-4 w-4" />}
+          {state === 'loading' && (
+            <FontAwesomeIcon
+              icon={faCircle}
+              flip="horizontal"
+              className="h-4 w-4 animate-[fa-flip_1s_ease-in-out_infinite]"
+            />
+          )}
+          {state === 'success' && <FontAwesomeIcon icon={faCheck} className="h-4 w-4" />}
+          {state === 'error' && <FontAwesomeIcon icon={faXmark} className="h-4 w-4" />}
         </>
       </button>
     );

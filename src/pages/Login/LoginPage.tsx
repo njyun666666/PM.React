@@ -20,9 +20,10 @@ import FieldMessage from 'src/components/FieldMessage';
 import { useState } from 'react';
 import { ResponseErrors } from 'src/lib/api/pmAPI';
 import { Alert, AlertDescription } from 'src/components/ui/alert';
-import { AlertCircle } from 'lucide-react';
 import { AxiosError } from 'axios';
 import Brand from 'src/components/Brand';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 
 const LoginPage = () => {
   const { t } = useTranslation();
@@ -79,7 +80,7 @@ const LoginPage = () => {
         <div className="w-full md:w-2/5">
           {error && (
             <Alert variant="destructive" className="mb-8">
-              <AlertCircle className="h-4 w-4" />
+              <FontAwesomeIcon icon={faCircleExclamation} className="h-4 w-4" />
               <AlertDescription>
                 <FieldMessage messages={error.errors} />
               </AlertDescription>

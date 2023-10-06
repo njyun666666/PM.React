@@ -1,7 +1,5 @@
 import { atom } from 'recoil';
 
-export type NavModeType = '';
-
 class WebSettings {
   navOpenState = atom<boolean>({
     key: 'navOpenState',

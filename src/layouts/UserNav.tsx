@@ -1,4 +1,3 @@
-import { Globe, LogOut, Palette, User } from 'lucide-react';
 import { useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from 'src/components/ui/avatar';
 import {
@@ -19,6 +18,8 @@ import {
 import { login } from 'src/lib/services/login';
 import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGlobe, faPalette, faRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons';
 
 const UserNav = () => {
   const { t } = useTranslation();
@@ -44,7 +45,7 @@ const UserNav = () => {
         <Avatar className="h-8 w-8 cursor-pointer">
           <AvatarImage src={payload?.photoURL} />
           <AvatarFallback>
-            <User className="h-5 w-5" />
+            <FontAwesomeIcon icon={faUser} className="h-4 w-4" />
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
@@ -60,7 +61,7 @@ const UserNav = () => {
         <DropdownMenuGroup>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
-              <Globe className={iconClass} />
+              <FontAwesomeIcon icon={faGlobe} className={iconClass} />
               <span>{t('UserNav.Language')}</span>
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
@@ -81,7 +82,7 @@ const UserNav = () => {
 
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
-              <Palette className={iconClass} />
+              <FontAwesomeIcon icon={faPalette} className={iconClass} />
               <span>{t('UserNav.Theme')}</span>
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
@@ -97,7 +98,7 @@ const UserNav = () => {
 
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => login.logout()}>
-          <LogOut className={iconClass} />
+          <FontAwesomeIcon icon={faRightFromBracket} className={iconClass} />
           <span>{t('UserNav.Logout')}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>

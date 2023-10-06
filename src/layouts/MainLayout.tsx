@@ -8,9 +8,10 @@ import UserNav from './UserNav';
 import Nav from './Nav';
 import { webSettings } from 'src/lib/services/webSettings';
 import { cn } from 'src/lib/utils';
-import { ChevronsRight, Menu } from 'lucide-react';
 import { Button } from 'src/components/ui/button';
-import { ScreenEnum, useScreenMode } from 'src/lib/services/common';
+import { ScreenEnum, useScreenMode } from 'src/lib/common';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAnglesRight, faBars } from '@fortawesome/free-solid-svg-icons';
 
 const MainLayout = () => {
   const navigate = useNavigate();
@@ -49,10 +50,10 @@ const MainLayout = () => {
         <div>
           <Button
             variant="ghost"
-            className={cn('p-2 sm:hidden')}
+            className={cn('h-10 w-10 p-2 sm:hidden')}
             onClick={() => setNavOpenState((prev) => !prev)}
           >
-            <Menu />
+            <FontAwesomeIcon icon={faBars} className="" />
           </Button>
         </div>
         <div>
@@ -67,7 +68,7 @@ const MainLayout = () => {
       <nav
         className={cn(
           'group/nav absolute left-0 top-0 z-10 flex h-full w-0 flex-col overflow-hidden bg-background duration-200',
-          'sm:w-13 sm:top-12 sm:h-[calc(100%-theme(height.12))] ',
+          'sm:top-12 sm:h-[calc(100%-theme(height.12))] sm:w-13 ',
           {
             '!w-64': navOpenState || navExpandedState,
             'xl:w-64': navDefaultExpanded,
@@ -76,7 +77,7 @@ const MainLayout = () => {
         onMouseEnter={() => setNavExpandedState(true)}
         onMouseLeave={() => setNavExpandedState(false)}
       >
-        <ScrollArea className={cn('w-64 grow p-1.5')}>
+        <ScrollArea className={cn('w-64 grow p-1.5 pr-2.5')}>
           <Nav />
         </ScrollArea>
 
@@ -94,8 +95,9 @@ const MainLayout = () => {
               setNavExpandedState(false);
             }}
           >
-            <ChevronsRight
-              className={cn('h-4 w-4 duration-200', {
+            <FontAwesomeIcon
+              icon={faAnglesRight}
+              className={cn('h-4 w-4 text-secondary duration-200', {
                 'rotate-180': navDefaultExpanded,
               })}
             />

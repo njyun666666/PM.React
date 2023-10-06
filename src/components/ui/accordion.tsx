@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import * as React from 'react';
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
-import { ChevronRight } from 'lucide-react';
-
 import { cn } from 'src/lib/utils';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 const Accordion = AccordionPrimitive.Root;
 
@@ -30,7 +30,10 @@ const AccordionTrigger = React.forwardRef<
     >
       <>
         {children}
-        <ChevronRight className="h-4 w-4 shrink-0 transition-transform duration-200" />
+        <FontAwesomeIcon
+          icon={faChevronRight}
+          className="h-2.5 w-2.5 shrink-0 transition-transform duration-200"
+        />
       </>
     </AccordionPrimitive.Trigger>
   </AccordionPrimitive.Header>
