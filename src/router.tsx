@@ -14,15 +14,27 @@ const router = createBrowserRouter([
         element: <DashboardPage />,
       },
       {
-        path: '/d2',
+        path: '/2',
         element: <D2Page />,
       },
       {
-        path: '/d2-2',
+        path: '/2-1',
         element: <D2Page />,
       },
       {
-        path: '/d3-2-1',
+        path: '/2-2',
+        element: <D2Page />,
+      },
+      {
+        path: '/3-1',
+        element: <D2Page />,
+      },
+      {
+        path: '/3-2-1',
+        element: <D2Page />,
+      },
+      {
+        path: '/3-2-2',
         element: <D2Page />,
       },
     ],

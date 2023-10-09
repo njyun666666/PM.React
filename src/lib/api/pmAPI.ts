@@ -7,7 +7,7 @@ import axios, {
 } from 'axios';
 import HttpStatusCodes from './httpStatusCodes';
 import appConfig from 'src/appConfig';
-import { login } from '../services/login';
+import { loginService } from '../services/loginService';
 
 export interface ResponseErrors {
   errors: {
@@ -22,7 +22,7 @@ const pmAPI: Readonly<AxiosInstance> = axios.create({
 });
 
 const AuthInterceptor = (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
-  const accessToken = login.getToken().access_token;
+  const accessToken = loginService.getToken().access_token;
   if (accessToken) {
     config.headers.Authorization = `bearer ${accessToken}`;
   }
@@ -40,21 +40,21 @@ const OnResponseFailure = async (error: AxiosError<ResponseErrors>): Promise<Res
         //
       } else if (error.config?.url?.toLowerCase() === '/api/Login/RefreshToken'.toLowerCase()) {
         console.log('Refresh token failed');
-        login.logout();
+        loginService.logout();
       } else {
         // reflash token
         console.log('call reflash token');
-        const refresh_token = login.getToken().refresh_token;
+        const refresh_token = loginService.getToken().refresh_token;
 
         if (!refresh_token) {
           console.log('refresh_token is null');
-          login.logout();
+          loginService.logout();
         } else {
-          const isRefresh = await login.refresh();
+          const isRefresh = await loginService.refresh();
 
           if (!isRefresh) {
             console.error('RefreshToken error');
-            login.logout();
+            loginService.logout();
           } else {
             return await pmAPI.request(error.config as AxiosRequestConfig);
           }

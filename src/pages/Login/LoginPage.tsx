@@ -13,7 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, ButtonStateType } from 'src/components/ui/button';
 import { z } from 'zod';
 import { useTranslation } from 'react-i18next';
-import { login } from 'src/lib/services/login';
+import { loginService } from 'src/lib/services/loginService';
 import { useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import FieldMessage from 'src/components/FieldMessage';
@@ -27,7 +27,7 @@ import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 
 const LoginPage = () => {
   const { t } = useTranslation();
-  const setLoginState = useSetRecoilState(login.loginState);
+  const setLoginState = useSetRecoilState(loginService.loginState);
   const navigate = useNavigate();
   const [error, setError] = useState<ResponseErrors>();
   const [loginBtnState, setLoginBtnState] = useState<ButtonStateType>();
@@ -56,10 +56,10 @@ const LoginPage = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setLoginBtnState('loading');
 
-    await login
+    await loginService
       .login(values)
       .then(({ data }) => {
-        login.setToken(data);
+        loginService.setToken(data);
         setLoginState(true);
         navigate('/', { replace: true });
       })

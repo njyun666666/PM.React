@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
-class WebSettings {
+class WebSettingService {
   navOpenState = atom<boolean>({
     key: 'navOpenState',
     default: false,
@@ -20,4 +20,4 @@ class WebSettings {
   });
 }
 
-export const webSettings = new WebSettings();
+export const webSettingService = new WebSettingService();

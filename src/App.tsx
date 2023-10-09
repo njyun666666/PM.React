@@ -2,10 +2,10 @@ import './i18n/config';
 import { RouterProvider } from 'react-router-dom';
 import router from './router';
 import { useSetRecoilState } from 'recoil';
-import { login } from './lib/services/login';
+import { loginService } from './lib/services/loginService';
 
 const App = () => {
-  login.setLoginState = useSetRecoilState(login.loginState);
+  loginService.setLoginState = useSetRecoilState(loginService.loginState);
 
   if (!localStorage.theme) {
     localStorage.theme = 'dark';

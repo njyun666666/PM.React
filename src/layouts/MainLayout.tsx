@@ -3,10 +3,10 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import Brand from 'src/components/Brand';
 import { ScrollArea, ScrollBar } from 'src/components/ui/scroll-area';
-import { login } from 'src/lib/services/login';
+import { loginService } from 'src/lib/services/loginService';
 import UserNav from './UserNav';
 import Nav from './Nav';
-import { webSettings } from 'src/lib/services/webSettings';
+import { webSettingService } from 'src/lib/services/webSettingService';
 import { cn } from 'src/lib/utils';
 import { Button } from 'src/components/ui/button';
 import { ScreenEnum, useScreenMode } from 'src/lib/common';
@@ -15,11 +15,13 @@ import { faAnglesRight, faBars } from '@fortawesome/free-solid-svg-icons';
 
 const MainLayout = () => {
   const navigate = useNavigate();
-  const [loginState] = useRecoilState(login.loginState);
-  const [navOpenState, setNavOpenState] = useRecoilState(webSettings.navOpenState);
-  const [navExpandedState, setNavExpandedState] = useRecoilState(webSettings.navExpandedState);
+  const [loginState] = useRecoilState(loginService.loginState);
+  const [navOpenState, setNavOpenState] = useRecoilState(webSettingService.navOpenState);
+  const [navExpandedState, setNavExpandedState] = useRecoilState(
+    webSettingService.navExpandedState
+  );
   const [navDefaultExpanded, setNavDefaultExpanded] = useRecoilState(
-    webSettings.navDefaultExpandedState
+    webSettingService.navDefaultExpandedState
   );
   const screenMode = useScreenMode();
   const location = useLocation();

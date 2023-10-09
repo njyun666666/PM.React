@@ -15,7 +15,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from 'src/components/ui/dropdown-menu';
-import { login } from 'src/lib/services/login';
+import { loginService } from 'src/lib/services/loginService';
 import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -23,7 +23,7 @@ import { faGlobe, faPalette, faRightFromBracket, faUser } from '@fortawesome/fre
 
 const UserNav = () => {
   const { t } = useTranslation();
-  const payload = login.payload();
+  const payload = loginService.payload();
   const iconClass = 'mr-2 h-4 w-4';
   const [lang, setLang] = useState<string>(localStorage.lang);
   const [theme, setTheme] = useState<string>(localStorage.theme);
@@ -97,7 +97,7 @@ const UserNav = () => {
         </DropdownMenuGroup>
 
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => login.logout()}>
+        <DropdownMenuItem onClick={() => loginService.logout()}>
           <FontAwesomeIcon icon={faRightFromBracket} className={iconClass} />
           <span>{t('UserNav.Logout')}</span>
         </DropdownMenuItem>

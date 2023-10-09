@@ -1,6 +1,6 @@
 import { faCircle, faHome, faSitemap } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import {
@@ -9,16 +9,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from 'src/components/ui/accordion';
-import { webSettings } from 'src/lib/services/webSettings';
+import { MenuViewModel, menuService } from 'src/lib/services/menuService';
+import { webSettingService } from 'src/lib/services/webSettingService';
 import { cn } from 'src/lib/utils';
-
-interface NavDataModel {
-  MenuID: string;
-  MenuName: string;
-  Icon: string;
-  URL?: string;
-  children?: NavDataModel[];
-}
 
 const iconMapping = {
   faCircle,
@@ -26,14 +19,15 @@ const iconMapping = {
   faSitemap,
 };
 
-const findChildren = (data: NavDataModel[], targetValue: string): NavDataModel[] => {
+const findChildren = (data: MenuViewModel[], targetValue: string): MenuViewModel[] => {
   const length = data.length;
 
   for (let i = 0; i < length; i++) {
-    if (data[i].URL === targetValue) {
+    if (data[i].url?.toLowerCase() === targetValue.toLowerCase()) {
+      // console.log(data[i].menuId, data[i].url, targetValue);
       return [data[i]];
     } else if (data[i].children) {
-      const resultChildren = findChildren(data[i].children as NavDataModel[], targetValue);
+      const resultChildren = findChildren(data[i].children as MenuViewModel[], targetValue);
       if (resultChildren.length > 0) {
         return [data[i], ...resultChildren];
       }
@@ -45,97 +39,49 @@ const findChildren = (data: NavDataModel[], targetValue: string): NavDataModel[]
 
 const Nav = () => {
   const location = useLocation();
+  const [menus, setMenus] = useState<MenuViewModel[]>([]);
+  const [expandedValue, setExpandedValue] = useState<string[]>([]);
 
-  const menus: NavDataModel[] = [
-    {
-      MenuID: '1',
-      MenuName: 'Home',
-      Icon: 'faHome',
-      URL: '/',
-    },
-    {
-      MenuID: '2',
-      MenuName: '2-0',
-      Icon: 'faSitemap',
-      children: [
-        {
-          MenuID: '2-1',
-          MenuName: '2-1',
-          Icon: 'faSitemap',
-          URL: '/d2',
-        },
-        {
-          MenuID: '2-2',
-          MenuName: '2-2',
-          Icon: 'faSitemap',
-          URL: '/d2-2',
-        },
-      ],
-    },
-    {
-      MenuID: '3',
-      MenuName: '3-0',
-      Icon: 'KanbanSquare',
-      children: [
-        {
-          MenuID: '3-1',
-          MenuName: '3-1',
-          Icon: 'KanbanSquare',
-          URL: '/3-1',
-        },
-        {
-          MenuID: '3-2',
-          MenuName: '3-2',
-          Icon: 'KanbanSquare',
-          URL: '/3-2',
-          children: [
-            {
-              MenuID: '3-2-1',
-              MenuName: '3-2-1',
-              Icon: 'KanbanSquare',
-              URL: '/d3-2-1',
-            },
-            {
-              MenuID: '3-2-2',
-              MenuName: '3-2-2',
-              Icon: 'KanbanSquare',
-              URL: '/3-2-2',
-            },
-          ],
-        },
-      ],
-    },
-  ];
+  useEffect(() => {
+    async function fetchData() {
+      const m = await menuService.getMenu();
+      setExpandedValue(findChildren(m, location.pathname).map((item) => item.menuId));
+      setMenus(m);
+    }
 
-  const expandedValue = useMemo(
-    () => findChildren(menus, location.pathname).map((item) => item.MenuID),
-    []
-  );
+    fetchData();
+  }, []);
+
+  if (menus.length === 0) {
+    return null;
+  }
 
   return (
     <Accordion type="multiple" className="w-full" defaultValue={expandedValue}>
       {menus.map((item) => (
-        <NavItem key={item.MenuID} data={item} expandedValue={expandedValue} />
+        <NavItem key={item.menuId} data={item} expandedValue={expandedValue} />
       ))}
     </Accordion>
   );
 };
 
 interface NavItemProps {
-  data: NavDataModel;
+  data: MenuViewModel;
   expandedValue: string[];
 }
 
 const NavItem = ({ data, expandedValue }: NavItemProps) => {
-  const [navExpandedState, setNavExpandedState] = useRecoilState(webSettings.navExpandedState);
-  const [navOpenState, setNavOpenState] = useRecoilState(webSettings.navOpenState);
-  const [navDefaultExpanded] = useRecoilState(webSettings.navDefaultExpandedState);
+  const [navExpandedState, setNavExpandedState] = useRecoilState(
+    webSettingService.navExpandedState
+  );
+  const [navOpenState, setNavOpenState] = useRecoilState(webSettingService.navOpenState);
+  const [navDefaultExpanded] = useRecoilState(webSettingService.navDefaultExpandedState);
 
   if (!data.children || data.children.length === 0) {
     return (
-      <AccordionItem value={data.MenuID} className="mb-1.5 border-0">
+      <AccordionItem value={data.menuId} className="mb-1.5 border-0">
         <NavLink
-          to={data.URL as string}
+          to={data.url as string}
           className={({ isActive }) =>
             cn('flex items-center rounded p-0 pr-1 text-base font-normal hover:bg-accent', {
               'navIsActive group': isActive,
@@ -153,7 +99,7 @@ const NavItem = ({ data, expandedValue }: NavItemProps) => {
               'rounded p-3 leading-none group-[.navIsActive]:bg-accent group-[.navIsActive]:text-primary'
             )}
           >
-            <NavIcon icon={data.Icon} />
+            <NavIcon icon={data.icon} />
           </span>
           <span
             className={cn(
@@ -164,7 +110,7 @@ const NavItem = ({ data, expandedValue }: NavItemProps) => {
               }
             )}
           >
-            {data.MenuName}
+            {data.menuName}
           </span>
         </NavLink>
       </AccordionItem>
@@ -172,11 +118,11 @@ const NavItem = ({ data, expandedValue }: NavItemProps) => {
   }
 
   return (
-    <AccordionItem value={data.MenuID} className="border-0">
+    <AccordionItem value={data.menuId} className="border-0">
       <AccordionTrigger className="mb-1.5 flex items-center rounded p-0 pr-1 text-base font-normal hover:bg-accent hover:no-underline">
         <div className="flex items-center">
           <span className="rounded p-3 leading-none">
-            <NavIcon icon={data.Icon} />
+            <NavIcon icon={data.icon} />
           </span>
           <span
             className={cn(
@@ -187,19 +133,22 @@ const NavItem = ({ data, expandedValue }: NavItemProps) => {
               }
             )}
           >
-            {data.MenuName}
+            {data.menuName}
           </span>
         </div>
       </AccordionTrigger>
       <AccordionContent
-        className={cn('pl-0 text-base group-hover/nav:pl-3', {
-          'pl-3': navOpenState || navExpandedState,
-          'xl:pl-3': navDefaultExpanded,
-        })}
+        className={cn(
+          'pl-0 text-base transition-[padding-left] duration-200 group-hover/nav:pl-3',
+          {
+            'pl-3': navOpenState || navExpandedState,
+            'xl:pl-3': navDefaultExpanded,
+          }
+        )}
       >
         <Accordion type="multiple" className="w-full" defaultValue={expandedValue}>
           {data.children.map((item) => (
-            <NavItem key={item.MenuID} data={item} expandedValue={expandedValue} />
+            <NavItem key={item.menuId} data={item} expandedValue={expandedValue} />
           ))}
         </Accordion>
       </AccordionContent>
@@ -207,7 +156,7 @@ const NavItem = ({ data, expandedValue }: NavItemProps) => {
   );
 };
 
-const NavIcon = ({ icon }: { icon: string }) => {
+const NavIcon = ({ icon }: { icon?: string }) => {
   const Icon = iconMapping[icon as keyof typeof iconMapping] || iconMapping.faCircle;
   return <FontAwesomeIcon icon={Icon} className="h-4 w-4 shrink-0" />;
 };

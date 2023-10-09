@@ -21,7 +21,7 @@ interface UserPayload extends JwtPayload {
   photoURL?: string;
 }
 
-class Login {
+class LoginService {
   loginState = atom<boolean>({
     key: 'loginState',
     default: !!this.getToken().access_token,
@@ -71,4 +71,4 @@ class Login {
   }
 }
 
-export const login = new Login();
+export const loginService = new LoginService();
