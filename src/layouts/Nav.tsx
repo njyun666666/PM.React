@@ -24,7 +24,6 @@ const findChildren = (data: MenuViewModel[], targetValue: string): MenuViewModel
 
   for (let i = 0; i < length; i++) {
     if (data[i].url?.toLowerCase() === targetValue.toLowerCase()) {
-      // console.log(data[i].menuId, data[i].url, targetValue);
       return [data[i]];
     } else if (data[i].children) {
       const resultChildren = findChildren(data[i].children as MenuViewModel[], targetValue);
@@ -44,9 +43,11 @@ const Nav = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const m = await menuService.getMenu();
-      setExpandedValue(findChildren(m, location.pathname).map((item) => item.menuId));
-      setMenus(m);
+      const menuResponse = await menuService.getMenu();
+      if (!menuResponse) return;
+
+      setExpandedValue(findChildren(menuResponse, location.pathname).map((item) => item.menuId));
+      setMenus(menuResponse);
     }
 
     fetchData();

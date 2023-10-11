@@ -10,7 +10,10 @@ export interface MenuViewModel {
 
 class MenuService {
   getMenu() {
-    return pmAPI.get<MenuViewModel[]>('/api/Menus').then(({ data }) => data);
+    return pmAPI
+      .get<MenuViewModel[]>('/api/Menus')
+      .then(({ data }) => data)
+      .catch(() => undefined);
   }
 }
 

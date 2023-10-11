@@ -53,7 +53,7 @@ const OnResponseFailure = async (error: AxiosError<ResponseErrors>): Promise<Res
           const isRefresh = await loginService.refresh();
 
           if (!isRefresh) {
-            console.error('RefreshToken error');
+            console.log('RefreshToken error');
             loginService.logout();
           } else {
             return await pmAPI.request(error.config as AxiosRequestConfig);
