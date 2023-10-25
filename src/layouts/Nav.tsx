@@ -139,13 +139,10 @@ const NavItem = ({ data, expandedValue }: NavItemProps) => {
         </div>
       </AccordionTrigger>
       <AccordionContent
-        className={cn(
-          'pl-0 text-base transition-[padding-left] duration-200 group-hover/nav:pl-3',
-          {
-            'pl-3': navOpenState || navExpandedState,
-            'xl:pl-3': navDefaultExpanded,
-          }
-        )}
+        className={cn('pl-0 text-base !duration-200 group-hover/nav:pl-3', {
+          'pl-3': navOpenState || navExpandedState,
+          'xl:pl-3': navDefaultExpanded,
+        })}
       >
         <Accordion type="multiple" className="w-full" defaultValue={expandedValue}>
           {data.children.map((item) => (
