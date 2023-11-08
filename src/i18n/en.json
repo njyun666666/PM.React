@@ -2,6 +2,13 @@
   "website": {
     "title": "PM"
   },
+  "page": {
+    "Home": "Home",
+    "Org": "Organization",
+    "OrgDept": "Department",
+    "OrgUser": "User",
+    "OrgAuth": "Auth"
+  },
   "login": {
     "title": "Login",
     "login": "Login"

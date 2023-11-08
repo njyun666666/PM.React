@@ -1,6 +1,14 @@
-import { faCircle, faHome, faSitemap } from '@fortawesome/free-solid-svg-icons';
+import {
+  faBuilding,
+  faCircle,
+  faHome,
+  faSitemap,
+  faUser,
+  faUserShield,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import {
@@ -17,6 +25,9 @@ const iconMapping = {
   faCircle,
   faHome,
   faSitemap,
+  faUser,
+  faUserShield,
+  faBuilding,
 };
 
 const findChildren = (data: MenuViewModel[], targetValue: string): MenuViewModel[] => {
@@ -77,6 +88,7 @@ const NavItem = ({ data, expandedValue }: NavItemProps) => {
   );
   const [navOpenState, setNavOpenState] = useRecoilState(webSettingService.navOpenState);
   const [navDefaultExpanded] = useRecoilState(webSettingService.navDefaultExpandedState);
+  const { t } = useTranslation();
 
   if (!data.children || data.children.length === 0) {
     return (
@@ -111,7 +123,10 @@ const NavItem = ({ data, expandedValue }: NavItemProps) => {
               }
             )}
           >
-            {data.menuName}
+            {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              t(`page.${data.menuName}` as any)
+            }
           </span>
         </NavLink>
       </AccordionItem>
@@ -134,7 +149,10 @@ const NavItem = ({ data, expandedValue }: NavItemProps) => {
               }
             )}
           >
-            {data.menuName}
+            {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              t(`page.${data.menuName}` as any)
+            }
           </span>
         </div>
       </AccordionTrigger>

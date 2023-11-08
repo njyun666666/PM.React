@@ -2,6 +2,13 @@
   "website": {
     "title": "PM"
   },
+  "page": {
+    "Home": "首頁",
+    "Org": "組織",
+    "OrgDept": "部門",
+    "OrgUser": "使用者",
+    "OrgAuth": "權限"
+  },
   "login": {
     "title": "登入",
     "login": "登入"
