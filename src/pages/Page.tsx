@@ -1,7 +1,14 @@
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
+import { cn } from 'src/lib/utils';
 
-const Page = ({ title, children }: { title: string; children: React.ReactNode }) => {
+interface PageProps {
+  title: string;
+  children: React.ReactNode;
+  className?: string;
+}
+
+const Page = ({ title, children, className }: PageProps) => {
   const { t } = useTranslation();
 
   return (
@@ -11,7 +18,7 @@ const Page = ({ title, children }: { title: string; children: React.ReactNode })
           {title} | {t('website.title')}
         </title>
       </Helmet>
-      {children}
+      <div className={cn('px-4 py-2', className)}>{children}</div>
     </>
   );
 };

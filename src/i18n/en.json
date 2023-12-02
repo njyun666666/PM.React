@@ -5,6 +5,7 @@
   "page": {
     "Home": "Home",
     "Org": "Organization",
+    "OrgChart": "Organizational chart",
     "OrgDept": "Department",
     "OrgUser": "User",
     "OrgAuth": "Auth"
@@ -23,10 +24,19 @@
   "field": {
     "error": "error",
     "email": "Email",
-    "password": "Password"
+    "password": "Password",
+    "company": "Company",
+    "deptName": "Department",
+    "parentDeptName": "Parent department"
   },
   "messages": {
     "required": "required",
     "Login Failed": "Login Failed"
+  },
+  "datatable": {
+    "Search": "Search",
+    "RowsPerPage": "Rows per page",
+    "PageOf": "Page",
+    "NoResults": "No results."
   }
 }

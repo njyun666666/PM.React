@@ -5,9 +5,10 @@
   "page": {
     "Home": "首頁",
     "Org": "組織",
+    "OrgChart": "組織圖",
     "OrgDept": "部門",
     "OrgUser": "使用者",
-    "OrgAuth": "權限"
+    "Auth": "權限"
   },
   "login": {
     "title": "登入",
@@ -23,10 +24,19 @@
   "field": {
     "error": "error",
     "email": "Email",
-    "password": "密碼"
+    "password": "密碼",
+    "company": "公司",
+    "deptName": "部門",
+    "parentDeptName": "上層部門"
   },
   "messages": {
     "required": "必填",
     "Login Failed": "登入失敗"
+  },
+  "datatable": {
+    "Search": "查詢",
+    "RowsPerPage": "每頁筆數",
+    "PageOf": "頁數",
+    "NoResults": "查無資料"
   }
 }

@@ -123,7 +123,7 @@ const MainLayout = () => {
           }
         )}
       >
-        <ScrollArea className="h-full w-full px-3 py-2">
+        <ScrollArea className="h-full w-full">
           <ScrollBar orientation="horizontal" />
           <Outlet />
         </ScrollArea>
