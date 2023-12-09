@@ -66,7 +66,6 @@ const OnResponseFailure = async (error: AxiosError<ResponseErrors>): Promise<Res
       // console.log('Requested resource was not found.');
       break;
     case HttpStatusCodes.FORBIDDEN:
-      // console.log('Access to this resource is forbidden');
       break;
     default:
       break;

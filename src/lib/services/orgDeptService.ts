@@ -1,3 +1,4 @@
+import { atom } from 'recoil';
 import pmAPI from '../api/pmAPI';
 
 export interface CompanyViewModel {
@@ -22,12 +23,28 @@ export interface OrgDeptsViewModel {
 }
 
 class OrgDeptService {
+  CompanyFormOpenState = atom<boolean>({
+    key: 'CompanyFormOpenState',
+    default: false,
+  });
+
+  CompanyFormDataState = atom<CompanyViewModel>({
+    key: 'CompanyFormDataState',
+    default: undefined,
+  });
+
   companyList() {
-    return pmAPI.get<CompanyViewModel[]>('/api/OrgDepts/CompanyList').then((data) => data.data);
+    return pmAPI
+      .get<CompanyViewModel[]>('/api/OrgDepts/CompanyList')
+      .then((data) => data.data)
+      .catch(() => [] as CompanyViewModel[]);
   }
 
   orgDepts(data: OrgDeptsModel) {
-    return pmAPI.post<OrgDeptsViewModel[]>('/api/OrgDepts', data).then((data) => data.data);
+    return pmAPI
+      .post<OrgDeptsViewModel[]>('/api/OrgDepts', data)
+      .then((data) => data.data)
+      .catch(() => [] as OrgDeptsViewModel[]);
   }
 }
 

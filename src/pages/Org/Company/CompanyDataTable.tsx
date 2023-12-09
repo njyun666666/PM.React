@@ -22,6 +22,7 @@ import {
 import { DataTablePagination } from 'src/components/ui/datatable/DataTablePagination';
 import { useTranslation } from 'react-i18next';
 import { cn } from 'src/lib/utils';
+import { Input } from 'src/components/ui/input';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -51,6 +52,14 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 
   return (
     <div>
+      <div className="flex items-center py-4">
+        <Input
+          placeholder={t('field.company')}
+          value={(table.getColumn('deptName')?.getFilterValue() as string) ?? ''}
+          onChange={(event) => table.getColumn('deptName')?.setFilterValue(event.target.value)}
+          className="max-w-sm"
+        />
+      </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>

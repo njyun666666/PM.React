@@ -22,11 +22,17 @@
     "Dark": "深色",
     "Logout": "登出"
   },
+  "form": {
+    "Actions": {
+      "Save": "儲存"
+    }
+  },
   "field": {
     "error": "error",
     "email": "Email",
     "password": "密碼",
     "company": "公司",
+    "companyName": "公司名稱",
     "deptName": "部門",
     "parentDeptName": "上層部門"
   },

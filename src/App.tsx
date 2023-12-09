@@ -3,6 +3,7 @@ import { RouterProvider } from 'react-router-dom';
 import router from './router';
 import { useSetRecoilState } from 'recoil';
 import { loginService } from './lib/services/loginService';
+import { Toaster } from './components/ui/toaster';
 
 const App = () => {
   loginService.setLoginState = useSetRecoilState(loginService.loginState);
@@ -17,7 +18,12 @@ const App = () => {
     document.documentElement.classList.remove('dark');
   }
 
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />
+      <Toaster />
+    </>
+  );
 };
 
 export default App;
