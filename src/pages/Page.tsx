@@ -18,7 +18,7 @@ const Page = ({ title, children, className }: PageProps) => {
           {title} | {t('website.title')}
         </title>
       </Helmet>
-      <div className={cn('p-4', className)}>{children}</div>
+      <div className={cn(className)}>{children}</div>
     </>
   );
 };

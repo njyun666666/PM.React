@@ -4,7 +4,7 @@ import DashboardPage from './pages/Dashboard/DashboardPage';
 import LoginPage from './pages/Login/LoginPage';
 import UserPage from './pages/Org/User/UserPage';
 import CompanyPage from './pages/Org/Company/CompanyPage';
-import RolesRouter from './components/RolesRouter';
+import RolesRouter from './layouts/RolesRouter';
 
 const router = createBrowserRouter([
   {

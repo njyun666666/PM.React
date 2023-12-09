@@ -1,9 +1,8 @@
 import { RoleType } from 'src/appConst';
 import { loginService } from 'src/lib/services/loginService';
-import { Alert, AlertTitle } from './ui/alert';
+import { Alert, AlertTitle } from '../components/ui/alert';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTranslation } from 'react-i18next';
-import { cn } from 'src/lib/utils';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { Outlet } from 'react-router-dom';
 
@@ -24,12 +23,10 @@ const RolesRouter = ({ roles, element }: RolesRouterProps) => {
   }
 
   return (
-    <div className={cn('p-4')}>
-      <Alert variant="destructive">
-        <FontAwesomeIcon icon={faCircleExclamation} className="h-4 w-4" />
-        <AlertTitle>{t('messages.Forbidden')}</AlertTitle>
-      </Alert>
-    </div>
+    <Alert variant="destructive">
+      <FontAwesomeIcon icon={faCircleExclamation} className="h-4 w-4" />
+      <AlertTitle>{t('messages.Forbidden')}</AlertTitle>
+    </Alert>
   );
 };
 
