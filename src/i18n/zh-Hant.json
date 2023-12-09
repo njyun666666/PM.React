@@ -6,6 +6,7 @@
     "Home": "首頁",
     "Org": "組織",
     "OrgChart": "組織圖",
+    "OrgCompany": "公司",
     "OrgDept": "部門",
     "OrgUser": "使用者",
     "Auth": "權限"
@@ -31,12 +32,16 @@
   },
   "messages": {
     "required": "必填",
-    "Login Failed": "登入失敗"
+    "Login Failed": "登入失敗",
+    "Forbidden": "拒絕存取"
   },
   "datatable": {
     "Search": "查詢",
     "RowsPerPage": "每頁筆數",
     "PageOf": "頁數",
-    "NoResults": "查無資料"
+    "NoResults": "查無資料",
+    "Actions": {
+      "Edit": "修改"
+    }
   }
 }

@@ -6,6 +6,7 @@
     "Home": "Home",
     "Org": "Organization",
     "OrgChart": "Organizational chart",
+    "OrgCompany": "Company",
     "OrgDept": "Department",
     "OrgUser": "User",
     "OrgAuth": "Auth"
@@ -31,12 +32,16 @@
   },
   "messages": {
     "required": "required",
-    "Login Failed": "Login Failed"
+    "Login Failed": "Login Failed",
+    "Forbidden": "Access to this resource is forbidden"
   },
   "datatable": {
     "Search": "Search",
     "RowsPerPage": "Rows per page",
     "PageOf": "Page",
-    "NoResults": "No results."
+    "NoResults": "No results.",
+    "Actions": {
+      "Edit": "Edit"
+    }
   }
 }

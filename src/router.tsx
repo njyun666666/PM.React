@@ -2,8 +2,9 @@ import { Navigate, createBrowserRouter } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
 import DashboardPage from './pages/Dashboard/DashboardPage';
 import LoginPage from './pages/Login/LoginPage';
-import DeptPage from './pages/Org/Dept/DeptPage';
 import UserPage from './pages/Org/User/UserPage';
+import CompanyPage from './pages/Org/Company/CompanyPage';
+import RolesRouter from './components/RolesRouter';
 
 const router = createBrowserRouter([
   {
@@ -16,9 +17,16 @@ const router = createBrowserRouter([
       },
       {
         path: 'org',
+        element: <RolesRouter roles={['organization', 'company']} />,
         children: [
-          { path: 'dept', element: <DeptPage /> },
-          { path: 'user', element: <UserPage /> },
+          {
+            path: 'company',
+            element: <RolesRouter roles={['company']} element={<CompanyPage />} />,
+          },
+          {
+            path: 'user',
+            element: <UserPage />,
+          },
         ],
       },
     ],

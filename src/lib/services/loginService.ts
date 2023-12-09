@@ -1,6 +1,7 @@
 import { SetterOrUpdater, atom } from 'recoil';
 import pmAPI from '../api/pmAPI';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
+import { RoleType } from 'src/appConst';
 
 export interface LoginModel {
   email: string;
@@ -18,6 +19,7 @@ export interface RefreshTokenModel {
 
 interface UserPayload extends JwtPayload {
   uid: string;
+  role: string | string[];
   photoURL?: string;
 }
 
@@ -68,6 +70,20 @@ class LoginService {
         return true;
       })
       .catch(() => false);
+  }
+
+  checkRole(roles?: RoleType[]) {
+    if (!roles) return true;
+
+    const length = roles.length;
+
+    for (let i = 0; i < length; i++) {
+      if (this.payload()?.role.includes(roles[i])) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }
 

@@ -59,6 +59,6 @@
   }
 
   h1 {
-    @apply text-3xl font-bold;
+    @apply pb-4 text-3xl font-bold;
   }
 }
