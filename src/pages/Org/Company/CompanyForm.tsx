@@ -9,18 +9,16 @@ import {
   DialogScrollArea,
   DialogTitle,
 } from 'src/components/ui/dialog';
-import { Label } from 'src/components/ui/label';
 import { Input } from 'src/components/ui/input';
-import { Button } from 'src/components/ui/button';
-import { Dispatch, SetStateAction, useEffect } from 'react';
-import { CompanyViewModel } from 'src/lib/services/orgDeptService';
+import { Button, ButtonStateType } from 'src/components/ui/button';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { CompanyViewModel, orgDeptService } from 'src/lib/services/orgDeptService';
 import * as z from 'zod';
 import { useTranslation } from 'react-i18next';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -28,24 +26,27 @@ import {
 } from 'src/components/ui/form';
 import { useForm } from 'react-hook-form';
 import { cn } from 'src/lib/utils';
+import { toast } from 'src/components/ui/use-toast';
 
 interface CompanyFormProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   data: CompanyViewModel;
+  setDataList: Dispatch<SetStateAction<CompanyViewModel[]>>;
 }
 
-const CompanyForm = ({ open, setOpen, data }: CompanyFormProps) => {
+const CompanyForm = ({ open, setOpen, data, setDataList }: CompanyFormProps) => {
   const { t } = useTranslation();
+  const [btnState, setBtnState] = useState<ButtonStateType>();
+  const [isAdd, setIsAdd] = useState(true);
 
   const formSchema = z.object({
     did: z.string(),
     deptName: z
       .string()
       .trim()
-      .min(1, { message: t('messages.required') })
-      .max(100)
-      .toLowerCase(),
+      .min(1, { message: t('message.required') })
+      .max(100),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -54,31 +55,48 @@ const CompanyForm = ({ open, setOpen, data }: CompanyFormProps) => {
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     console.log(values);
-  };
+    setBtnState('loading');
 
-  // const handleOpenChange = (open: boolean) => {
-  //   // console.log(open, data);
-  //   // if (open) {
-  //   //   form.reset(data);
-  //   // }
-  //   setOpen(open);
-  // };
+    orgDeptService
+      .company(values)
+      .then(() => {
+        orgDeptService.companyList().then((data) => setDataList(data));
+        setBtnState('success');
+        toast({ description: t(isAdd ? 'message.AddSuccess' : 'message.EditSuccess') });
+        setOpen(false);
+      })
+      .catch(() => {
+        toast({
+          variant: 'destructive',
+          description: t(isAdd ? 'message.AddFail' : 'message.EditFail'),
+        });
+        setBtnState('error');
+      });
+  };
 
   useEffect(() => {
     // console.log(open, data);
     if (open) {
       form.reset(data);
+
+      if (data.did) {
+        setIsAdd(false);
+      } else {
+        setIsAdd(true);
+      }
     }
   }, [open]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:h-auto">
+      <DialogContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className={cn(DialogFormStyle)}>
             <DialogMain>
               <DialogHeader>
-                <DialogTitle>Edit profile</DialogTitle>
+                <DialogTitle>
+                  {t(isAdd ? 'title.Add' : 'title.Edit', { title: t('field.company') })}
+                </DialogTitle>
                 <DialogDescription></DialogDescription>
               </DialogHeader>
 
@@ -101,7 +119,9 @@ const CompanyForm = ({ open, setOpen, data }: CompanyFormProps) => {
               </DialogScrollArea>
 
               <DialogFooter>
-                <Button type="submit">{t('form.Actions.Save')}</Button>
+                <Button type="submit" state={btnState} setState={setBtnState}>
+                  {t('action.Save')}
+                </Button>
               </DialogFooter>
             </DialogMain>
           </form>

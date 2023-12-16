@@ -9,7 +9,7 @@
     "OrgCompany": "Company",
     "OrgDept": "Department",
     "OrgUser": "User",
-    "OrgAuth": "Auth"
+    "Auth": "Auth"
   },
   "login": {
     "title": "Login",
@@ -22,26 +22,33 @@
     "Dark": "Dark",
     "Logout": "Logout"
   },
+  "datatable": {
+    "RowsPerPage": "Rows per page",
+    "PageOf": "Page",
+    "NoResults": "No results."
+  },
+  "action": {
+    "Search": "Search",
+    "Add": "Add",
+    "Edit": "Edit",
+    "Save": "Save"
+  },
+  "title": {
+    "Add": "Add {{title}}",
+    "Edit": "Edit {{title}}"
+  },
   "field": {
     "error": "error",
     "email": "Email",
     "password": "Password",
     "company": "Company",
+    "companyName": "Company name",
     "deptName": "Department",
     "parentDeptName": "Parent department"
   },
-  "messages": {
+  "message": {
     "required": "required",
     "Login Failed": "Login Failed",
     "Forbidden": "Access to this resource is forbidden"
-  },
-  "datatable": {
-    "Search": "Search",
-    "RowsPerPage": "Rows per page",
-    "PageOf": "Page",
-    "NoResults": "No results.",
-    "Actions": {
-      "Edit": "Edit"
-    }
   }
 }

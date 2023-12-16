@@ -36,7 +36,7 @@ const DeptPage = () => {
   const [data, setData] = useState<OrgDeptsViewModel[]>([]);
 
   const FormSchema = z.object({
-    did: z.string().min(1, { message: t('messages.required') }),
+    did: z.string().min(1, { message: t('message.required') }),
   });
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -93,7 +93,7 @@ const DeptPage = () => {
               <div className="grow"></div>
               <Button type="submit">
                 <FontAwesomeIcon icon={faMagnifyingGlass} className="mr-2" />
-                <span>{t('datatable.Search')}</span>
+                <span>{t('action.Search')}</span>
               </Button>
             </div>
           </form>

@@ -60,8 +60,13 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={disabled || !!state}
         {...props}
       >
-        <>
-          {!state && children}
+        {
+          <span className={cn('flex items-center justify-center', { invisible: state })}>
+            {children}
+          </span>
+        }
+
+        <div className="absolute flex items-center justify-center">
           {state === 'loading' && (
             <FontAwesomeIcon
               icon={faCircle}
@@ -71,7 +76,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           )}
           {state === 'success' && <FontAwesomeIcon icon={faCheck} className="h-4 w-4" />}
           {state === 'error' && <FontAwesomeIcon icon={faXmark} className="h-4 w-4" />}
-        </>
+        </div>
       </button>
     );
   }

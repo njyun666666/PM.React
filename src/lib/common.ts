@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { RecoilState, atom, useRecoilState } from 'recoil';
+import { uuid } from './utils';
 
 export enum ScreenEnum {
   default = 0,
@@ -43,4 +45,30 @@ export const useScreenMode = () => {
   }, []);
 
   return screenMode;
+};
+
+export interface FormState<T> {
+  open: RecoilState<boolean>;
+  data: RecoilState<T>;
+}
+
+export const formState = <T>() => {
+  const key = uuid();
+  return {
+    open: atom<boolean>({
+      key: key + 'OpenState',
+      default: false,
+    }),
+    data: atom<T>({
+      key: key + 'DataState',
+      default: undefined,
+    }),
+  } as FormState<T>;
+};
+
+export const useFormStatus = <T>({ open, data }: FormState<T>) => {
+  const [formOpen, setFormOpen] = useRecoilState(open);
+  const [formData, setFormData] = useRecoilState(data);
+
+  return { formOpen, setFormOpen, formData, setFormData };
 };

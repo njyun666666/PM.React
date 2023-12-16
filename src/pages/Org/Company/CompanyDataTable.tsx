@@ -21,7 +21,6 @@ import {
 } from 'src/components/ui/table';
 import { DataTablePagination } from 'src/components/ui/datatable/DataTablePagination';
 import { useTranslation } from 'react-i18next';
-import { cn } from 'src/lib/utils';
 import { Input } from 'src/components/ui/input';
 
 interface DataTableProps<TData, TValue> {

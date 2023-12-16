@@ -22,10 +22,20 @@
     "Dark": "深色",
     "Logout": "登出"
   },
-  "form": {
-    "Actions": {
-      "Save": "儲存"
-    }
+  "datatable": {
+    "RowsPerPage": "每頁筆數",
+    "PageOf": "頁數",
+    "NoResults": "查無資料"
+  },
+  "action": {
+    "Search": "查詢",
+    "Add": "新增",
+    "Edit": "修改",
+    "Save": "儲存"
+  },
+  "title": {
+    "Add": "新增{{title}}",
+    "Edit": "修改{{title}}"
   },
   "field": {
     "error": "error",
@@ -36,18 +46,15 @@
     "deptName": "部門",
     "parentDeptName": "上層部門"
   },
-  "messages": {
+  "message": {
     "required": "必填",
     "Login Failed": "登入失敗",
-    "Forbidden": "拒絕存取"
-  },
-  "datatable": {
-    "Search": "查詢",
-    "RowsPerPage": "每頁筆數",
-    "PageOf": "頁數",
-    "NoResults": "查無資料",
-    "Actions": {
-      "Edit": "修改"
-    }
+    "Forbidden": "拒絕存取",
+    "EditSuccess": "修改成功",
+    "AddSuccess": "新增成功",
+    "DeleteSuccess": "刪除成功",
+    "EditFail": "修改失敗",
+    "AddFail": "新增失敗",
+    "DeleteFail": "刪除失敗"
   }
 }

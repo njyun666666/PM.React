@@ -37,12 +37,12 @@ const LoginPage = () => {
       .string()
       .email()
       .trim()
-      .min(1, { message: t('messages.required') })
+      .min(1, { message: t('message.required') })
       .toLowerCase(),
     password: z
       .string()
       .trim()
-      .min(1, { message: t('messages.required') }),
+      .min(1, { message: t('message.required') }),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({

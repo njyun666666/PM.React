@@ -28,7 +28,7 @@ const DataTableActions = ({ edit }: DataTableActionsProps) => {
           {edit && (
             <DropdownMenuItem {...edit}>
               <FontAwesomeIcon icon={faPenToSquare} className="mr-2 h-4 w-4" />
-              <span>{t('datatable.Actions.Edit')}</span>
+              <span>{t('action.Edit')}</span>
             </DropdownMenuItem>
           )}
         </DropdownMenuContent>

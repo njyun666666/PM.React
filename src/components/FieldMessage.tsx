@@ -21,12 +21,12 @@ const FieldMessage = ({ messages }: TranMessageProps) => {
 
           {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            typeof value === 'string' && t(('messages.' + value) as any)
+            typeof value === 'string' && t(('message.' + value) as any)
           }
 
           {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            value instanceof Array && value.map((val) => t(('messages.' + val) as any)).join(', ')
+            value instanceof Array && value.map((val) => t(('message.' + val) as any)).join(', ')
           }
           <br />
         </React.Fragment>

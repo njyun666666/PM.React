@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTranslation } from 'react-i18next';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { Outlet } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 interface RolesRouterProps {
   roles: RoleType[];
@@ -23,10 +24,15 @@ const RolesRouter = ({ roles, element }: RolesRouterProps) => {
   }
 
   return (
-    <Alert variant="destructive">
-      <FontAwesomeIcon icon={faCircleExclamation} className="h-4 w-4" />
-      <AlertTitle>{t('messages.Forbidden')}</AlertTitle>
-    </Alert>
+    <>
+      <Helmet>
+        <title>{t('website.title')}</title>
+      </Helmet>
+      <Alert variant="destructive">
+        <FontAwesomeIcon icon={faCircleExclamation} className="h-4 w-4" />
+        <AlertTitle>{t('message.Forbidden')}</AlertTitle>
+      </Alert>
+    </>
   );
 };
 

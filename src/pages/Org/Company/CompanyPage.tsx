@@ -4,16 +4,19 @@ import { DataTable } from './CompanyDataTable';
 import { columns } from './CompanyColums';
 import { useEffect, useState } from 'react';
 import { CompanyViewModel, orgDeptService } from 'src/lib/services/orgDeptService';
-import { useRecoilState } from 'recoil';
 import CompanyForm from './CompanyForm';
-import { toast } from 'src/components/ui/use-toast';
+import { useFormStatus } from 'src/lib/common';
 import { Button } from 'src/components/ui/button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import Toolbar from 'src/components/ui/Toolbar';
 
 const CompanyPage = () => {
   const { t } = useTranslation();
   const [data, setData] = useState<CompanyViewModel[]>([]);
-  const [formOpenState, setFormOpenState] = useRecoilState(orgDeptService.CompanyFormOpenState);
-  const [formDataState, setFormDataState] = useRecoilState(orgDeptService.CompanyFormDataState);
+  const { formOpen, setFormOpen, formData, setFormData } = useFormStatus(
+    orgDeptService.companyFormState
+  );
 
   useEffect(() => {
     async function fetchData() {
@@ -27,8 +30,21 @@ const CompanyPage = () => {
     <Page title={t('page.OrgCompany')}>
       <h1>{t('page.OrgCompany')}</h1>
 
+      <Toolbar>
+        <Button
+          size="sm"
+          onClick={() => {
+            setFormData({ did: '', deptName: '' } as CompanyViewModel);
+            setFormOpen(true);
+          }}
+        >
+          <FontAwesomeIcon icon={faPlus} className="mr-2" />
+          {t('action.Add')}
+        </Button>
+      </Toolbar>
+
       <DataTable columns={columns} data={data} />
-      <CompanyForm open={formOpenState} setOpen={setFormOpenState} data={formDataState} />
+      <CompanyForm open={formOpen} setOpen={setFormOpen} data={formData} setDataList={setData} />
     </Page>
   );
 };

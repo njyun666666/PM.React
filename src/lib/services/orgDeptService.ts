@@ -1,5 +1,10 @@
-import { atom } from 'recoil';
 import pmAPI from '../api/pmAPI';
+import { formState } from '../common';
+
+export interface CompanyModel {
+  did: string;
+  deptName: string;
+}
 
 export interface CompanyViewModel {
   did: string;
@@ -23,21 +28,17 @@ export interface OrgDeptsViewModel {
 }
 
 class OrgDeptService {
-  CompanyFormOpenState = atom<boolean>({
-    key: 'CompanyFormOpenState',
-    default: false,
-  });
-
-  CompanyFormDataState = atom<CompanyViewModel>({
-    key: 'CompanyFormDataState',
-    default: undefined,
-  });
+  companyFormState = formState<CompanyViewModel>();
 
   companyList() {
     return pmAPI
       .get<CompanyViewModel[]>('/api/OrgDepts/CompanyList')
       .then((data) => data.data)
       .catch(() => [] as CompanyViewModel[]);
+  }
+
+  company(data: CompanyModel) {
+    return pmAPI.post('/api/OrgDepts/Company', data);
   }
 
   orgDepts(data: OrgDeptsModel) {

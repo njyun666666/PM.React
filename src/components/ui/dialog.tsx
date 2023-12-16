@@ -6,8 +6,6 @@ import { cn } from 'src/lib/utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { ScrollArea, ScrollBar } from './scroll-area';
-import { Button } from './button';
-import i18next from 'i18next';
 
 const Dialog = DialogPrimitive.Root;
 
