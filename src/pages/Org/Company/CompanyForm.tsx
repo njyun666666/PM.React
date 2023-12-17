@@ -32,10 +32,10 @@ interface CompanyFormProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   data: CompanyViewModel;
-  setDataList: Dispatch<SetStateAction<CompanyViewModel[]>>;
+  // setDataList: Dispatch<SetStateAction<CompanyViewModel[]>>;
 }
 
-const CompanyForm = ({ open, setOpen, data, setDataList }: CompanyFormProps) => {
+const CompanyForm = ({ open, setOpen, data }: CompanyFormProps) => {
   const { t } = useTranslation();
   const [btnState, setBtnState] = useState<ButtonStateType>();
   const [isAdd, setIsAdd] = useState(true);
@@ -60,7 +60,7 @@ const CompanyForm = ({ open, setOpen, data, setDataList }: CompanyFormProps) => 
     orgDeptService
       .company(values)
       .then(() => {
-        orgDeptService.companyList().then((data) => setDataList(data));
+        // orgDeptService.companyList().then((data) => setDataList(data));
         setBtnState('success');
         toast({ description: t(isAdd ? 'message.AddSuccess' : 'message.EditSuccess') });
         setOpen(false);

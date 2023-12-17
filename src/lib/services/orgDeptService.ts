@@ -1,8 +1,8 @@
 import pmAPI from '../api/pmAPI';
-import { formState } from '../common';
+import { QueryModel, QueryViewModel, formState } from '../common';
 
 export interface CompanyModel {
-  did: string;
+  did?: string;
   deptName: string;
 }
 
@@ -35,6 +35,14 @@ class OrgDeptService {
       .get<CompanyViewModel[]>('/api/OrgDepts/CompanyList')
       .then((data) => data.data)
       .catch(() => [] as CompanyViewModel[]);
+  }
+
+  queryCompany(data: QueryModel<CompanyModel>) {
+    console.log(data);
+    return pmAPI
+      .post<QueryViewModel<CompanyViewModel[]>>('/api/OrgDepts/QueryCompany', data)
+      .then((data) => data.data)
+      .catch(() => undefined);
   }
 
   company(data: CompanyModel) {

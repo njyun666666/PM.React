@@ -13,14 +13,14 @@ import Toolbar from 'src/components/ui/Toolbar';
 
 const CompanyPage = () => {
   const { t } = useTranslation();
-  const [data, setData] = useState<CompanyViewModel[]>([]);
+  // const [data, setData] = useState<CompanyViewModel[]>([]);
   const { formOpen, setFormOpen, formData, setFormData } = useFormStatus(
     orgDeptService.companyFormState
   );
 
   useEffect(() => {
     async function fetchData() {
-      setData(await orgDeptService.companyList());
+      // setData(await orgDeptService.companyList());
     }
 
     fetchData();
@@ -43,8 +43,8 @@ const CompanyPage = () => {
         </Button>
       </Toolbar>
 
-      <DataTable columns={columns} data={data} />
-      <CompanyForm open={formOpen} setOpen={setFormOpen} data={formData} setDataList={setData} />
+      <DataTable columns={columns} />
+      <CompanyForm open={formOpen} setOpen={setFormOpen} data={formData} />
     </Page>
   );
 };
