@@ -15,16 +15,14 @@ export const columns: ColumnDef<CompanyViewModel>[] = [
       const { setFormOpen, setFormData } = useFormStatus(orgDeptService.companyFormState);
 
       return (
-        <>
-          <DataTableActions
-            edit={{
-              onClick: () => {
-                setFormData(row.original);
-                setFormOpen(true);
-              },
-            }}
-          />
-        </>
+        <DataTableActions
+          edit={{
+            onClick: () => {
+              setFormData(row.original);
+              setFormOpen(true);
+            },
+          }}
+        />
       );
     },
   },

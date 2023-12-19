@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {
   ColumnDef,
-  ColumnFiltersState,
   PaginationState,
   SortingState,
   flexRender,
@@ -30,73 +29,63 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from 'src/component
 import { Button } from 'src/components/ui/button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { CompanyModel, CompanyViewModel, orgDeptService } from 'src/lib/services/orgDeptService';
-import { QueryModel } from 'src/lib/common';
+import { CompanyModel, orgDeptService } from 'src/lib/services/orgDeptService';
+import { useQuery } from '@tanstack/react-query';
+import DataTableLoading from 'src/components/ui/datatable/DataTableLoading';
+import DataTableMessage from 'src/components/ui/datatable/DataTableMessage';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  // data: TData[];
+  reloadData?: number;
 }
 
-export function DataTable<TData, TValue>({ columns }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({
+  columns,
+  reloadData = 0,
+}: DataTableProps<TData, TValue>) {
   const { t } = useTranslation();
-  const [data, setData] = React.useState<CompanyViewModel[]>([]);
   const [filter, setFilter] = React.useState<CompanyModel>();
-  const [pageCount, setPageCount] = React.useState(0);
   const [sorting, setSorting] = React.useState<SortingState>([{ id: 'deptName', desc: false }]);
-  // const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [pagination, setPagination] = React.useState<PaginationState>({
     pageIndex: 0,
-    pageSize: 2,
+    pageSize: 10,
   });
-  // const pagination = React.useMemo(() => ({ pageIndex, pageSize }), [pageIndex, pageSize]);
+
+  const getData = () => {
+    return orgDeptService.queryCompany({
+      filter: filter || { deptName: '' },
+      pageIndex: pagination.pageIndex,
+      pageSize: pagination.pageSize,
+      sort: sorting[0].id,
+      desc: sorting[0].desc,
+    });
+  };
+
+  const { isPending, error, data, isFetching } = useQuery({
+    queryKey: ['queryCompany', filter, pagination, sorting, reloadData],
+    queryFn: getData,
+  });
 
   const table = useReactTable({
-    data: data as TData[],
+    data: (data?.data ?? []) as TData[],
     columns,
-    pageCount: pageCount,
+    pageCount: data?.pageCount ?? 0,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    // onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    manualPagination: true,
+    manualSorting: true,
     state: {
       sorting,
       pagination,
     },
     onPaginationChange: setPagination,
-    manualPagination: true,
-    manualSorting: true,
-    // debugTable: true,
+    onSortingChange: (values) => {
+      table.resetPageIndex();
+      setSorting(values);
+    },
   });
-
-  const getData = () => {
-    if (filter) {
-      orgDeptService
-        .queryCompany({
-          filter: filter,
-          pageIndex: pagination.pageIndex,
-          pageSize: pagination.pageSize,
-          sort: sorting[0].id,
-          desc: sorting[0].desc,
-        })
-        .then((data) => {
-          setData(data?.data || []);
-          setPageCount(data?.pageCount || 1);
-          // console.log(data);
-        });
-    }
-  };
-
-  React.useEffect(() => {
-    table.resetPageIndex();
-    getData();
-  }, [filter, sorting]);
-
-  React.useEffect(() => {
-    getData();
-  }, [pagination]);
 
   const formSchema = z.object({
     deptName: z.string().trim(),
@@ -110,6 +99,7 @@ export function DataTable<TData, TValue>({ columns }: DataTableProps<TData, TVal
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
+    table.resetPageIndex();
     setFilter(values);
   };
 
@@ -157,7 +147,12 @@ export function DataTable<TData, TValue>({ columns }: DataTableProps<TData, TVal
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {isFetching || isPending ? (
+              <DataTableLoading
+                columnsLength={columns.length}
+                rowsLength={table.getRowModel().rows?.length || pagination.pageSize}
+              />
+            ) : table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
                   {row.getVisibleCells().map((cell) => (
@@ -168,16 +163,12 @@ export function DataTable<TData, TValue>({ columns }: DataTableProps<TData, TVal
                 </TableRow>
               ))
             ) : (
-              <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
-                  {t('datatable.NoResults')}
-                </TableCell>
-              </TableRow>
+              <DataTableMessage columnsLength={columns.length} message={error?.name} />
             )}
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
+      <div className="py-4">
         <DataTablePagination table={table} />
       </div>
     </div>

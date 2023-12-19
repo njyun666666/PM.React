@@ -32,10 +32,12 @@ interface CompanyFormProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   data: CompanyViewModel;
+  setReloadData: Dispatch<SetStateAction<number>>;
+
   // setDataList: Dispatch<SetStateAction<CompanyViewModel[]>>;
 }
 
-const CompanyForm = ({ open, setOpen, data }: CompanyFormProps) => {
+const CompanyForm = ({ open, setOpen, data, setReloadData }: CompanyFormProps) => {
   const { t } = useTranslation();
   const [btnState, setBtnState] = useState<ButtonStateType>();
   const [isAdd, setIsAdd] = useState(true);
@@ -54,13 +56,14 @@ const CompanyForm = ({ open, setOpen, data }: CompanyFormProps) => {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+    // console.log(values);
     setBtnState('loading');
 
     orgDeptService
       .company(values)
       .then(() => {
         // orgDeptService.companyList().then((data) => setDataList(data));
+        setReloadData((prev) => prev + 1);
         setBtnState('success');
         toast({ description: t(isAdd ? 'message.AddSuccess' : 'message.EditSuccess') });
         setOpen(false);

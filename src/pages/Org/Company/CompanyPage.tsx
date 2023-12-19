@@ -17,6 +17,7 @@ const CompanyPage = () => {
   const { formOpen, setFormOpen, formData, setFormData } = useFormStatus(
     orgDeptService.companyFormState
   );
+  const [reloadData, setReloadData] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
@@ -43,8 +44,13 @@ const CompanyPage = () => {
         </Button>
       </Toolbar>
 
-      <DataTable columns={columns} />
-      <CompanyForm open={formOpen} setOpen={setFormOpen} data={formData} />
+      <DataTable columns={columns} reloadData={reloadData} />
+      <CompanyForm
+        open={formOpen}
+        setOpen={setFormOpen}
+        data={formData}
+        setReloadData={setReloadData}
+      />
     </Page>
   );
 };

@@ -38,7 +38,6 @@ class OrgDeptService {
   }
 
   queryCompany(data: QueryModel<CompanyModel>) {
-    console.log(data);
     return pmAPI
       .post<QueryViewModel<CompanyViewModel[]>>('/api/OrgDepts/QueryCompany', data)
       .then((data) => data.data)
