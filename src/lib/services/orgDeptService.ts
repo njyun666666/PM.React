@@ -1,5 +1,5 @@
 import pmAPI from '../api/pmAPI';
-import { QueryModel, QueryViewModel, formState } from '../common';
+import { formState } from '../common';
 
 export interface CompanyModel {
   did?: string;
@@ -29,19 +29,13 @@ export interface OrgDeptsViewModel {
 
 class OrgDeptService {
   companyFormState = formState<CompanyViewModel>();
+  readonly queryCompanyAPI = '/api/OrgDepts/QueryCompany';
 
   companyList() {
     return pmAPI
       .get<CompanyViewModel[]>('/api/OrgDepts/CompanyList')
       .then((data) => data.data)
       .catch(() => [] as CompanyViewModel[]);
-  }
-
-  queryCompany(data: QueryModel<CompanyModel>) {
-    return pmAPI
-      .post<QueryViewModel<CompanyViewModel[]>>('/api/OrgDepts/QueryCompany', data)
-      .then((data) => data.data)
-      .catch(() => undefined);
   }
 
   company(data: CompanyModel) {

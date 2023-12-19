@@ -2,19 +2,6 @@ import { useEffect, useState } from 'react';
 import { RecoilState, atom, useRecoilState } from 'recoil';
 import { uuid } from './utils';
 
-export interface QueryModel<T> {
-  filter: T;
-  pageIndex: number;
-  pageSize: number;
-  sort?: string;
-  desc?: boolean;
-}
-
-export interface QueryViewModel<T> {
-  data: T;
-  pageCount: number;
-}
-
 export enum ScreenEnum {
   default = 0,
   sm = 640,

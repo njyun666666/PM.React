@@ -33,8 +33,6 @@ interface CompanyFormProps {
   setOpen: Dispatch<SetStateAction<boolean>>;
   data: CompanyViewModel;
   setReloadData: Dispatch<SetStateAction<number>>;
-
-  // setDataList: Dispatch<SetStateAction<CompanyViewModel[]>>;
 }
 
 const CompanyForm = ({ open, setOpen, data, setReloadData }: CompanyFormProps) => {
@@ -56,13 +54,11 @@ const CompanyForm = ({ open, setOpen, data, setReloadData }: CompanyFormProps) =
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    // console.log(values);
     setBtnState('loading');
 
     orgDeptService
       .company(values)
       .then(() => {
-        // orgDeptService.companyList().then((data) => setDataList(data));
         setReloadData((prev) => prev + 1);
         setBtnState('success');
         toast({ description: t(isAdd ? 'message.AddSuccess' : 'message.EditSuccess') });
