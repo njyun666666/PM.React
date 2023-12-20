@@ -8,7 +8,8 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
     "plugin:prettier/recommended",
-    "plugin:@tanstack/eslint-plugin-query/recommended"
+    "plugin:@tanstack/eslint-plugin-query/recommended",
+    "plugin:react/jsx-runtime"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -18,7 +19,6 @@
   "plugins": ["@typescript-eslint", "react", "prettier"],
   "rules": {
     "prettier/prettier": 0,
-    "react/react-in-jsx-scope": 0,
     "react/prop-types": 1,
     "@typescript-eslint/no-unused-vars": 1
   }
