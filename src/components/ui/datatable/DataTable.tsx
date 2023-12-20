@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import {
   ColumnDef,
   PaginationState,
@@ -32,16 +32,16 @@ interface DataTableProps<TData, TValue, TFilter> {
   filter: TFilter;
 }
 
-export function DataTable<TData, TValue, TFilter>({
+export default function DataTable<TData, TValue, TFilter>({
   queryKey,
   columns,
   reloadData = 0,
   api,
   filter,
 }: DataTableProps<TData, TValue, TFilter>) {
-  const [sorting, setSorting] = React.useState<SortingState>();
-  const [filterData, setFilterData] = React.useState<TFilter>();
-  const [pagination, setPagination] = React.useState<PaginationState>({
+  const [sorting, setSorting] = useState<SortingState>();
+  const [filterData, setFilterData] = useState<TFilter>();
+  const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
   });
@@ -81,7 +81,7 @@ export function DataTable<TData, TValue, TFilter>({
     },
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     table.resetPageIndex();
     setFilterData(filter);
   }, [filter]);

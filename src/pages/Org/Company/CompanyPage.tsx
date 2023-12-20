@@ -9,7 +9,7 @@ import { Button } from 'src/components/ui/button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
 import Toolbar from 'src/components/ui/Toolbar';
-import { DataTable } from 'src/components/ui/datatable/DataTable';
+import DataTable from 'src/components/ui/datatable/DataTable';
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
