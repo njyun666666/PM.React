@@ -25,14 +25,12 @@ const CompanyPage = () => {
   const [filter, setFilter] = useState<CompanyModel>();
 
   const formSchema = z.object({
-    deptName: z.string().trim(),
+    deptName: z.string().trim().optional(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      deptName: '',
-    },
+    defaultValues: {},
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {

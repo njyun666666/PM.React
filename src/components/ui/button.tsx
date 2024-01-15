@@ -60,11 +60,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={disabled || !!state}
         {...props}
       >
-        {
-          <span className={cn('flex items-center justify-center', { invisible: state })}>
-            {children}
-          </span>
-        }
+        <span className={cn('flex w-full items-center justify-center', { invisible: state })}>
+          {children}
+        </span>
 
         <div className="absolute flex items-center justify-center">
           {state === 'loading' && (

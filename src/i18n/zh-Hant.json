@@ -44,7 +44,8 @@
     "company": "公司",
     "companyName": "公司名稱",
     "deptName": "部門",
-    "parentDeptName": "上層部門"
+    "parentDeptName": "上層部門",
+    "userName": "姓名"
   },
   "message": {
     "required": "必填",
@@ -55,6 +56,8 @@
     "DeleteSuccess": "刪除成功",
     "EditFail": "修改失敗",
     "AddFail": "新增失敗",
-    "DeleteFail": "刪除失敗"
+    "DeleteFail": "刪除失敗",
+    "InvalidEmail": "無效Email",
+    "NoFound": "沒有找到"
   }
 }

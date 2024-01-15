@@ -56,7 +56,7 @@ export default function DataTable<TData, TValue, TFilter>({
     });
   };
 
-  const { isPending, error, data, isFetching } = useQuery({
+  const { isLoading, error, data } = useQuery({
     queryKey: [queryKey, filterData, pagination, sorting, reloadData],
     queryFn: getData,
   });
@@ -106,7 +106,7 @@ export default function DataTable<TData, TValue, TFilter>({
             ))}
           </TableHeader>
           <TableBody>
-            {isFetching || isPending ? (
+            {isLoading ? (
               <DataTableLoading
                 columnsLength={columns.length}
                 rowsLength={table.getRowModel().rows?.length || pagination.pageSize}

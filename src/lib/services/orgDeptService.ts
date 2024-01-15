@@ -3,7 +3,7 @@ import { formState } from '../common';
 
 export interface CompanyModel {
   did?: string;
-  deptName: string;
+  deptName?: string;
 }
 
 export interface CompanyViewModel {

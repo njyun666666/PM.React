@@ -44,11 +44,20 @@
     "company": "Company",
     "companyName": "Company name",
     "deptName": "Department",
-    "parentDeptName": "Parent department"
+    "parentDeptName": "Parent department",
+    "userName": "Name"
   },
   "message": {
     "required": "required",
     "Login Failed": "Login Failed",
-    "Forbidden": "Access to this resource is forbidden"
+    "Forbidden": "Access to this resource is forbidden",
+    "EditSuccess": "Edited success",
+    "AddSuccess": "Added success",
+    "DeleteSuccess": "Deleted success",
+    "EditFail": "Edit failed",
+    "AddFail": "Add failed",
+    "DeleteFail": "Delete failed",
+    "InvalidEmail": "Invalid Email",
+    "NoFound": "No found"
   }
 }
