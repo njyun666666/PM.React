@@ -9,7 +9,7 @@ import Nav from './Nav';
 import { webSettingService } from 'src/lib/services/webSettingService';
 import { cn } from 'src/lib/utils';
 import { Button } from 'src/components/ui/button';
-import { ScreenEnum, useScreenMode } from 'src/lib/common';
+import { useBreakpoint } from 'src/lib/common';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesRight, faBars } from '@fortawesome/free-solid-svg-icons';
 
@@ -23,7 +23,7 @@ const MainLayout = () => {
   const [navDefaultExpanded, setNavDefaultExpanded] = useRecoilState(
     webSettingService.navDefaultExpandedState
   );
-  const screenMode = useScreenMode();
+  const breakpoint = useBreakpoint();
   const location = useLocation();
 
   useEffect(() => {
@@ -37,10 +37,10 @@ const MainLayout = () => {
   }, [loginState]);
 
   useEffect(() => {
-    if (screenMode >= ScreenEnum.sm) {
+    if (breakpoint !== 'default') {
       setNavOpenState(false);
     }
-  }, [screenMode]);
+  }, [breakpoint]);
 
   if (!loginState) {
     return null;
@@ -69,8 +69,8 @@ const MainLayout = () => {
 
       <nav
         className={cn(
-          'group/nav absolute left-0 top-0 z-10 flex h-full w-0 flex-col overflow-hidden bg-background duration-200',
-          'sm:top-12 sm:h-[calc(100%-theme(height.12))] sm:w-13 ',
+          'group/nav absolute left-0 top-0 z-10 flex h-full w-0 flex-col overflow-hidden border-r bg-background duration-200',
+          'sm:top-12 sm:h-[calc(100%-theme(height.12))] sm:w-13 sm:border-0',
           {
             '!w-64': navOpenState || navExpandedState,
             'xl:w-64': navDefaultExpanded,
