@@ -54,18 +54,6 @@ const CompanyPage = () => {
     // setFilter(values);
   };
 
-  const options: OptionModel[] = [
-    { label: 'English', value: 'en' },
-    { label: 'French', value: 'fr' },
-    { label: 'German', value: 'de' },
-    { label: 'Spanish', value: 'es' },
-    { label: 'Portuguese', value: 'pt' },
-    { label: 'Russian', value: 'ru' },
-    { label: 'Japanese', value: 'ja' },
-    { label: 'Korean', value: 'ko' },
-    { label: 'Chinese', value: 'zh' },
-  ];
-
   useEffect(() => {
     async function fetchData() {
       // setCompanyList(await orgDeptService.companyList());
@@ -104,9 +92,8 @@ const CompanyPage = () => {
                     <Combobox
                       value={field.value}
                       onSelect={(item) => form.setValue(field.name, item.value)}
-                      // optionsData={options}
                       api={optionService.authCompanyList}
-                      isInputManual={true}
+                      isInputManual
                       className="w-full"
                       contentClassName="min-w-[200px] w-min"
                     />
