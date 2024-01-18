@@ -22,7 +22,7 @@ import { DataTablePagination } from 'src/components/ui/datatable/DataTablePagina
 import { useQuery } from '@tanstack/react-query';
 import DataTableLoading from 'src/components/ui/datatable/DataTableLoading';
 import DataTableMessage from 'src/components/ui/datatable/DataTableMessage';
-import { queryService } from 'src/lib/services/QueryService';
+import { queryService } from 'src/lib/services/queryService';
 
 interface DataTableProps<TData, TValue, TFilter> {
   queryKey: string;

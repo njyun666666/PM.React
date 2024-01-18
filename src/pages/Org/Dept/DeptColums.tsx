@@ -14,13 +14,13 @@ import { OrgDeptsViewModel } from 'src/lib/services/orgDeptService';
 export const columns: ColumnDef<OrgDeptsViewModel>[] = [
   {
     accessorKey: 'deptName',
-    header: ({ column }) => <DataTableColumnHeader column={column} title={'field.deptName'} />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title={['field.deptName']} />,
   },
   {
     accessorKey: 'parentDeptName',
     enableSorting: false,
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={'field.parentDeptName'} />
+      <DataTableColumnHeader column={column} title={['field.parentDeptName']} />
     ),
   },
   {

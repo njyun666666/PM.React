@@ -1,18 +1,26 @@
 import { ColumnDef } from '@tanstack/react-table';
 import DataTableActions from 'src/components/ui/datatable/DataTableActions';
 import { DataTableColumnHeader } from 'src/components/ui/datatable/DataTableColumnHeader';
-import { CompanyViewModel, orgDeptService } from 'src/lib/services/orgDeptService';
 import { useFormStatus } from 'src/lib/common';
+import { QueryUsersViewModel, orgUserService } from 'src/lib/services/orgUserService';
 
-export const columns: ColumnDef<CompanyViewModel>[] = [
+export const columns: ColumnDef<QueryUsersViewModel>[] = [
+  {
+    accessorKey: 'name',
+    header: ({ column }) => <DataTableColumnHeader column={column} title={['field.userName']} />,
+  },
+  {
+    accessorKey: 'email',
+    header: ({ column }) => <DataTableColumnHeader column={column} title={['field.email']} />,
+  },
   {
     accessorKey: 'deptName',
-    header: ({ column }) => <DataTableColumnHeader column={column} title={'field.company'} />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title={['field.deptName']} />,
   },
   {
     id: 'actions',
     cell: ({ row }) => {
-      const { setFormOpen, setFormData } = useFormStatus(orgDeptService.companyFormState);
+      const { setFormOpen, setFormData } = useFormStatus(orgUserService.formState);
 
       return (
         <DataTableActions

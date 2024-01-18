@@ -4,10 +4,12 @@ import { Button } from '../button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowDown, faArrowUp, faSort } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
 
-interface DataTableColumnHeaderProps<TData, TValue> extends React.HTMLAttributes<HTMLDivElement> {
+interface DataTableColumnHeaderProps<TData, TValue> {
   column: Column<TData, TValue>;
-  title: string;
+  title: Parameters<typeof i18next.t>;
+  className?: string;
 }
 
 export function DataTableColumnHeader<TData, TValue>({
@@ -24,7 +26,7 @@ export function DataTableColumnHeader<TData, TValue>({
   return (
     <Button
       variant="ghost"
-      className="-ml-4"
+      className={cn('-ml-4', className)}
       onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
     >
       {t(title as never)}

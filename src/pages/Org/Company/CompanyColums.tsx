@@ -7,7 +7,7 @@ import { useFormStatus } from 'src/lib/common';
 export const columns: ColumnDef<CompanyViewModel>[] = [
   {
     accessorKey: 'deptName',
-    header: ({ column }) => <DataTableColumnHeader column={column} title={'field.company'} />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title={['field.company']} />,
   },
   {
     id: 'actions',
