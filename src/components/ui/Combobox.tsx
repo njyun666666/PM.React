@@ -62,7 +62,6 @@ export default function Combobox({
 
   useDebounce(
     () => {
-      console.log(filter);
       setIsDebounced(false);
       setDebouncedValue(filter);
     },
