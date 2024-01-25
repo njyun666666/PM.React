@@ -18,7 +18,7 @@ class QueryService {
     return pmAPI
       .post<QueryViewModel<TResult[]>>(api, data)
       .then((data) => data.data)
-      .catch(() => undefined);
+      .catch(() => ({ data: [], pageCount: 0 }) as QueryViewModel<TResult[]>);
   }
 }
 

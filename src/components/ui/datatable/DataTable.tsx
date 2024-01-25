@@ -19,10 +19,10 @@ import {
   TableRow,
 } from 'src/components/ui/table';
 import { DataTablePagination } from 'src/components/ui/datatable/DataTablePagination';
-import { useQuery } from '@tanstack/react-query';
+import { QueryFunction, QueryObserverOptions, useQuery } from '@tanstack/react-query';
 import DataTableLoading from 'src/components/ui/datatable/DataTableLoading';
 import DataTableMessage from 'src/components/ui/datatable/DataTableMessage';
-import { queryService } from 'src/lib/services/queryService';
+import { QueryViewModel, queryService } from 'src/lib/services/queryService';
 
 interface DataTableProps<TData, TValue, TFilter> {
   queryKey: string;
@@ -30,6 +30,7 @@ interface DataTableProps<TData, TValue, TFilter> {
   reloadData?: number;
   api: string;
   filter: TFilter;
+  queryOptions?: QueryObserverOptions<QueryViewModel<TData[]>>;
 }
 
 export default function DataTable<TData, TValue, TFilter>({
@@ -38,6 +39,7 @@ export default function DataTable<TData, TValue, TFilter>({
   reloadData = 0,
   api,
   filter,
+  queryOptions,
 }: DataTableProps<TData, TValue, TFilter>) {
   const [sorting, setSorting] = useState<SortingState>();
   const [filterData, setFilterData] = useState<TFilter>();
@@ -46,7 +48,7 @@ export default function DataTable<TData, TValue, TFilter>({
     pageSize: 10,
   });
 
-  const getData = () => {
+  const getData: QueryFunction<QueryViewModel<TData[]>> = () => {
     return queryService.query(api, {
       filter: filter,
       pageIndex: pagination.pageIndex,
@@ -59,10 +61,11 @@ export default function DataTable<TData, TValue, TFilter>({
   const { isLoading, error, data } = useQuery({
     queryKey: [queryKey, filterData, pagination, sorting, reloadData],
     queryFn: getData,
+    ...queryOptions,
   });
 
   const table = useReactTable({
-    data: (data?.data ?? []) as TData[],
+    data: data?.data ?? [],
     columns,
     pageCount: data?.pageCount ?? 0,
     getCoreRowModel: getCoreRowModel(),
