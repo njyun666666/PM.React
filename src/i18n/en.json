@@ -45,7 +45,9 @@
     "companyName": "Company name",
     "deptName": "Department",
     "parentDeptName": "Parent department",
-    "userName": "Name"
+    "user": "User",
+    "name": "Name",
+    "enable": "Enable"
   },
   "message": {
     "required": "required",

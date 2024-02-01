@@ -69,9 +69,10 @@ const MainLayout = () => {
 
       <nav
         className={cn(
-          'group/nav absolute left-0 top-0 z-10 flex h-full w-0 flex-col overflow-hidden border-r bg-background duration-200',
+          'group/nav absolute left-0 top-0 z-10 flex h-full w-0 flex-col overflow-hidden bg-background duration-200',
           'sm:top-12 sm:h-[calc(100%-theme(height.12))] sm:w-13 sm:border-0',
           {
+            'border-r': navOpenState,
             '!w-64': navOpenState || navExpandedState,
             'xl:w-64': navDefaultExpanded,
           }

@@ -10,9 +10,9 @@ class OptionService {
 
   query(api: string, data?: string) {
     return pmAPI
-      .get<OptionModel[]>(`${api}/${data}`)
+      .get<OptionModel[]>(`${api}/${data ?? ''}`)
       .then((data) => data.data)
-      .catch(() => undefined);
+      .catch(() => [] as OptionModel[]);
   }
 }
 

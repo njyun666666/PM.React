@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import Page from 'src/pages/Page';
 import { columns } from './CompanyColums';
 import { useState } from 'react';
-import { CompanyModel, CompanyViewModel, orgDeptService } from 'src/lib/services/orgDeptService';
+import { CompanyModel, orgDeptService } from 'src/lib/services/orgDeptService';
 import CompanyForm from './CompanyForm';
 import { useFormStatus } from 'src/lib/common';
 import { Button } from 'src/components/ui/button';
@@ -45,7 +45,7 @@ const CompanyPage = () => {
         <Button
           size="sm"
           onClick={() => {
-            setFormData({ did: '', deptName: '' } as CompanyViewModel);
+            setFormData(undefined);
             setFormOpen(true);
           }}
         >

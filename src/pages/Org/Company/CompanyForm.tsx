@@ -3,7 +3,7 @@ import {
   DialogContent,
   DialogDescription,
   DialogFooter,
-  DialogFormStyle,
+  DialogForm,
   DialogHeader,
   DialogMain,
   DialogScrollArea,
@@ -25,13 +25,12 @@ import {
   FormMessage,
 } from 'src/components/ui/form';
 import { useForm } from 'react-hook-form';
-import { cn } from 'src/lib/utils';
 import { toast } from 'src/components/ui/use-toast';
 
 interface CompanyFormProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  data: CompanyViewModel;
+  data?: CompanyViewModel;
   setReloadData: Dispatch<SetStateAction<number>>;
 }
 
@@ -46,11 +45,15 @@ const CompanyForm = ({ open, setOpen, data, setReloadData }: CompanyFormProps) =
       .string()
       .trim()
       .min(1, { message: t('message.required') })
-      .max(100),
+      .max(50),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      did: '',
+      deptName: '',
+    },
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
@@ -74,15 +77,9 @@ const CompanyForm = ({ open, setOpen, data, setReloadData }: CompanyFormProps) =
   };
 
   useEffect(() => {
-    // console.log(open, data);
     if (open) {
+      setIsAdd(data === undefined);
       form.reset(data);
-
-      if (data.did) {
-        setIsAdd(false);
-      } else {
-        setIsAdd(true);
-      }
     }
   }, [open]);
 
@@ -90,7 +87,7 @@ const CompanyForm = ({ open, setOpen, data, setReloadData }: CompanyFormProps) =
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className={cn(DialogFormStyle)}>
+          <DialogForm onSubmit={form.handleSubmit(onSubmit)}>
             <DialogMain>
               <DialogHeader>
                 <DialogTitle>
@@ -100,7 +97,7 @@ const CompanyForm = ({ open, setOpen, data, setReloadData }: CompanyFormProps) =
               </DialogHeader>
 
               <DialogScrollArea>
-                <div className="space-y-8 ">
+                <div className="grid grid-cols-1 gap-5">
                   <FormField
                     control={form.control}
                     name="deptName"
@@ -123,7 +120,7 @@ const CompanyForm = ({ open, setOpen, data, setReloadData }: CompanyFormProps) =
                 </Button>
               </DialogFooter>
             </DialogMain>
-          </form>
+          </DialogForm>
         </Form>
       </DialogContent>
     </Dialog>

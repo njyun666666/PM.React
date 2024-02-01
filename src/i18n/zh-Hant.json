@@ -45,7 +45,9 @@
     "companyName": "公司名稱",
     "deptName": "部門",
     "parentDeptName": "上層部門",
-    "userName": "姓名"
+    "user": "使用者",
+    "name": "姓名",
+    "enable": "啟用"
   },
   "message": {
     "required": "必填",

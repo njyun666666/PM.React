@@ -30,6 +30,10 @@ const DialogOverlay = React.forwardRef<
 ));
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
+/**
+ * ex: DialogContent className="sm:h-[90%]"
+ * <DialogContent className="sm:h-[500px]">
+ */
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
@@ -39,10 +43,10 @@ const DialogContent = React.forwardRef<
     <DialogPrimitive.Content
       ref={ref}
       className={cn(
-        'fixed z-50 grid gap-4 overflow-hidden border bg-background shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] ',
-        'left-[50%] top-[50%] h-full w-full translate-x-[-50%] translate-y-[-50%]',
-        'overflow-hidden sm:h-auto sm:max-h-[90%] sm:max-w-lg sm:rounded-lg',
-        // sm:max-h-screen
+        'fixed z-50 grid gap-4 overflow-hidden bg-background shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] ',
+        'left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]',
+        'h-full w-full',
+        'sm:h-auto sm:max-h-[90%] sm:max-w-lg sm:rounded-lg sm:border',
         className
       )}
       {...props}
@@ -126,7 +130,12 @@ const DialogScrollArea = ({
 );
 DialogScrollArea.displayName = 'DialogScrollArea';
 
-const DialogFormStyle = 'overflow-hidden';
+const DialogForm = ({ className, children, ...props }: React.HTMLAttributes<HTMLFormElement>) => (
+  <form className={cn('overflow-hidden', className)} {...props}>
+    {children}
+  </form>
+);
+DialogForm.displayName = 'DialogForm';
 
 export {
   Dialog,
@@ -141,5 +150,5 @@ export {
   DialogDescription,
   DialogMain,
   DialogScrollArea,
-  DialogFormStyle,
+  DialogForm,
 };

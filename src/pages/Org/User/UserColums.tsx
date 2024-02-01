@@ -2,20 +2,16 @@ import { ColumnDef } from '@tanstack/react-table';
 import DataTableActions from 'src/components/ui/datatable/DataTableActions';
 import { DataTableColumnHeader } from 'src/components/ui/datatable/DataTableColumnHeader';
 import { useFormStatus } from 'src/lib/common';
-import { QueryUsersViewModel, orgUserService } from 'src/lib/services/orgUserService';
+import { OrgUserViewModel, orgUserService } from 'src/lib/services/orgUserService';
 
-export const columns: ColumnDef<QueryUsersViewModel>[] = [
+export const columns: ColumnDef<OrgUserViewModel>[] = [
   {
     accessorKey: 'name',
-    header: ({ column }) => <DataTableColumnHeader column={column} title={['field.userName']} />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title={['field.name']} />,
   },
   {
     accessorKey: 'email',
     header: ({ column }) => <DataTableColumnHeader column={column} title={['field.email']} />,
-  },
-  {
-    accessorKey: 'deptName',
-    header: ({ column }) => <DataTableColumnHeader column={column} title={['field.deptName']} />,
   },
   {
     id: 'actions',

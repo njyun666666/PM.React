@@ -23,44 +23,34 @@ import {
 } from 'src/components/ui/form';
 import { Input } from 'src/components/ui/input';
 import Combobox from 'src/components/ui/Combobox';
-import { OptionModel, optionService } from 'src/lib/services/optionService';
+import { optionService } from 'src/lib/services/optionService';
+import { OrgUserQueryModel, orgUserService } from 'src/lib/services/orgUserService';
+import UserForm from './UserForm';
 
 const CompanyPage = () => {
   const { t } = useTranslation();
-  const { formOpen, setFormOpen, formData, setFormData } = useFormStatus(
-    orgDeptService.companyFormState
-  );
+  const { formOpen, setFormOpen, formData, setFormData } = useFormStatus(orgUserService.formState);
   const [reloadData, setReloadData] = useState(0);
-  const [filter, setFilter] = useState<CompanyModel>();
-  const [companyList, setCompanyList] = useState<CompanyViewModel[]>();
+  const [filter, setFilter] = useState<OrgUserQueryModel>();
 
   const formSchema = z.object({
-    did: z.string().min(1, { message: t('message.required') }),
-    userName: z.string().trim().optional(),
+    rootDid: z.string().min(1, { message: t('message.required') }),
+    name: z.string().trim().optional(),
     email: z.string().trim().optional(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      did: '',
-      userName: '',
+      rootDid: '',
+      name: '',
       email: '',
     },
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
-    // setFilter(values);
+    setFilter(values);
   };
-
-  useEffect(() => {
-    async function fetchData() {
-      // setCompanyList(await orgDeptService.companyList());
-    }
-
-    fetchData();
-  }, []);
 
   return (
     <Page title={t('page.OrgUser')}>
@@ -70,7 +60,7 @@ const CompanyPage = () => {
         <Button
           size="sm"
           onClick={() => {
-            setFormData({ did: '', deptName: '' } as CompanyViewModel);
+            setFormData(undefined);
             setFormOpen(true);
           }}
         >
@@ -84,7 +74,7 @@ const CompanyPage = () => {
           <div className="my-4 grid w-full grid-cols-1 gap-4 sm:grid-cols-4">
             <FormField
               control={form.control}
-              name="did"
+              name="rootDid"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{t('field.company')}</FormLabel>
@@ -105,10 +95,10 @@ const CompanyPage = () => {
 
             <FormField
               control={form.control}
-              name="userName"
+              name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t('field.userName')}</FormLabel>
+                  <FormLabel>{t('field.name')}</FormLabel>
                   <FormControl>
                     <Input {...field} className="w-full" />
                   </FormControl>
@@ -138,21 +128,22 @@ const CompanyPage = () => {
           </div>
         </form>
       </Form>
-      {/* 
+
       <DataTable
-        queryKey="queryCompany"
+        queryKey="queryOrgUser"
         columns={columns}
         reloadData={reloadData}
         filter={filter}
-        api={orgDeptService.queryCompanyAPI}
-      /> */}
+        api={orgUserService.queryAPI}
+        queryOptions={{ enabled: !!filter }}
+      />
 
-      {/* <CompanyForm
+      <UserForm
         open={formOpen}
         setOpen={setFormOpen}
         data={formData}
         setReloadData={setReloadData}
-      /> */}
+      />
     </Page>
   );
 };

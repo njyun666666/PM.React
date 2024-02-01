@@ -15,7 +15,7 @@ export const useBreakpoint = createBreakpoint({
 
 export interface FormState<T> {
   open: RecoilState<boolean>;
-  data: RecoilState<T>;
+  data: RecoilState<T | undefined>;
 }
 
 export const formState = <T>() => {
