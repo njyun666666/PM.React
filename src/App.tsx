@@ -1,37 +1,27 @@
-import { ChevronRight, Loader2, Mail } from 'lucide-react';
-import { Button } from './components/ui/button';
+import './i18n/config';
+import { RouterProvider } from 'react-router-dom';
+import router from './router';
+import { useSetRecoilState } from 'recoil';
+import { loginService } from './lib/services/loginService';
+import { Toaster } from './components/ui/toaster';
 
 const App = () => {
-  localStorage.theme = 'dark';
+  loginService.setLoginState = useSetRecoilState(loginService.loginState);
 
-  if (localStorage.theme === 'light') {
-    document.documentElement.classList.remove('dark');
-  } else {
+  if (!localStorage.theme) {
+    localStorage.theme = 'dark';
+  }
+
+  if (localStorage.theme === 'dark') {
     document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
   }
 
   return (
     <>
-      <div className="space-x-2 space-y-2 p-5">
-        <Button size={'sm'}>test</Button>
-        <Button>test</Button>
-        <Button size={'lg'}>test</Button>
-        <Button variant="secondary">Secondary</Button>
-        <Button variant="destructive">Destructive</Button>
-        <Button variant="outline">Button</Button>
-        <Button variant="ghost">Ghost</Button>
-        <Button variant="link">Link</Button>
-        <Button variant="outline" size="icon">
-          <ChevronRight className="h-4 w-4" />
-        </Button>
-        <Button>
-          <Mail className="mr-2 h-4 w-4" /> Login with Email
-        </Button>
-        <Button disabled>
-          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          Please wait
-        </Button>
-      </div>
+      <RouterProvider router={router} />
+      <Toaster />
     </>
   );
 };

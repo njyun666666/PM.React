@@ -1,0 +1,65 @@
+{
+  "website": {
+    "title": "PM"
+  },
+  "page": {
+    "Home": "首頁",
+    "Org": "組織",
+    "OrgChart": "組織圖",
+    "OrgCompany": "公司",
+    "OrgDept": "部門",
+    "OrgUser": "使用者",
+    "Auth": "權限"
+  },
+  "login": {
+    "title": "登入",
+    "login": "登入"
+  },
+  "UserNav": {
+    "Language": "語言",
+    "Theme": "主題",
+    "Light": "淺色",
+    "Dark": "深色",
+    "Logout": "登出"
+  },
+  "datatable": {
+    "RowsPerPage": "每頁筆數",
+    "PageOf": "頁數",
+    "NoResults": "查無資料"
+  },
+  "action": {
+    "Search": "查詢",
+    "Add": "新增",
+    "Edit": "修改",
+    "Save": "儲存"
+  },
+  "title": {
+    "Add": "新增{{title}}",
+    "Edit": "修改{{title}}"
+  },
+  "field": {
+    "error": "error",
+    "email": "Email",
+    "password": "密碼",
+    "company": "公司",
+    "companyName": "公司名稱",
+    "deptName": "部門",
+    "parentDeptName": "上層部門",
+    "user": "使用者",
+    "name": "姓名",
+    "enable": "啟用"
+  },
+  "message": {
+    "required": "必填",
+    "Login Failed": "登入失敗",
+    "Forbidden": "拒絕存取",
+    "EditSuccess": "修改成功",
+    "AddSuccess": "新增成功",
+    "DeleteSuccess": "刪除成功",
+    "EditFail": "修改失敗",
+    "AddFail": "新增失敗",
+    "DeleteFail": "刪除失敗",
+    "InvalidEmail": "無效Email",
+    "NoFound": "沒有找到"
+  }
+}

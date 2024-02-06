@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ['class'],
@@ -64,6 +65,15 @@ module.exports = {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+      },
+      spacing: {
+        13: '3.25rem',
+        15: '3.75rem',
+        128: '32rem',
+        144: '36rem',
+      },
+      minHeight: {
+        5: '1.25rem',
       },
     },
   },
