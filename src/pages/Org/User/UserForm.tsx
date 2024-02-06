@@ -24,25 +24,15 @@ import {
   FormMessage,
 } from 'src/components/ui/form';
 import { useFieldArray, useForm } from 'react-hook-form';
-import { cn } from 'src/lib/utils';
+import { cn, uuid } from 'src/lib/utils';
 import { toast } from 'src/components/ui/use-toast';
 import { OrgUserViewModel } from 'src/lib/services/orgUserService';
 import { Checkbox } from 'src/components/ui/checkbox';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from 'src/components/ui/select';
-import { CompanyViewModel, orgDeptService } from 'src/lib/services/orgDeptService';
-import { OptionModel, optionService } from 'src/lib/services/optionService';
+import { optionService } from 'src/lib/services/optionService';
 import SelectAPI from 'src/components/ui/SelectAPI';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faTrash, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from 'src/components/ui/datatable/DataTableColumnHeader';
-import FormDetail, { FormDetailColumnDef } from 'src/components/ui/FormDetail';
+import FormDetail from 'src/components/ui/FormDetail/FormDetail';
+import { FormDetailColumnDef } from 'src/components/ui/FormDetail/FormDetailLib';
 
 interface UserFormProps {
   open: boolean;
@@ -55,10 +45,12 @@ const UserForm = ({ open, setOpen, data, setReloadData }: UserFormProps) => {
   const { t } = useTranslation();
   const [btnState, setBtnState] = useState<ButtonStateType>();
   const [isAdd, setIsAdd] = useState(true);
-  const [companyList, setCompanyList] = useState<OptionModel[]>();
 
   const detailSchema = z.object({
-    did: z.string(),
+    did: z
+      .string()
+      .trim()
+      .min(1, { message: t('message.required') }),
     enable: z.boolean(),
   });
 
@@ -80,7 +72,10 @@ const UserForm = ({ open, setOpen, data, setReloadData }: UserFormProps) => {
     depts: detailSchema.array().optional(),
   });
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  type FormSchema = z.infer<typeof formSchema>;
+  type DetailSchema = z.infer<typeof detailSchema>;
+
+  const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       uid: '',
@@ -95,32 +90,20 @@ const UserForm = ({ open, setOpen, data, setReloadData }: UserFormProps) => {
     },
   });
 
-  const { fields, append, prepend, remove, swap, move, insert } = useFieldArray({
-    control: form.control,
-    name: 'depts',
-  });
-
-  const depts = useFieldArray({
-    control: form.control,
-    name: 'depts',
-  });
-
-  // const deptData: z.infer<typeof detailSchema>[] = [
-  //   { did: 'f1719f17ce05478d8ef3149c2754d5c8', enable: true },
-  //   // { did: 'efe8d4b6744d7b4d443ac51a59f59a31', enable: true },
-  // ];
-  type formType = z.infer<typeof formSchema>;
-  type detailType = z.infer<typeof detailSchema>;
-  const columns: FormDetailColumnDef<detailType, unknown, formType>[] = [
+  const columns: FormDetailColumnDef<DetailSchema, unknown, FormSchema>[] = [
     {
       accessorKey: 'did',
       enableSorting: false,
+      isEdit: true,
       header: ({ column }) => <DataTableColumnHeader column={column} title={['field.company']} />,
-      formCell: (formControl, index) => {
+      cell: ({ row }) => {
+        return <div>{row.original.did}</div>;
+      },
+      formCell: (formControl, rowIndex) => {
         return (
           <FormField
             control={formControl}
-            name={`depts.${index}.did`}
+            name={`depts.${rowIndex}.did`}
             render={({ field }) => (
               <FormItem>
                 <FormControl>
@@ -140,15 +123,25 @@ const UserForm = ({ open, setOpen, data, setReloadData }: UserFormProps) => {
     {
       accessorKey: 'enable',
       enableSorting: false,
-      header: ({ column }) => <DataTableColumnHeader column={column} title={['field.enable']} />,
-      formCell: (formControl, index) => {
+      isEdit: true,
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title={['field.enable']} className=" text-center" />
+      ),
+      cell: ({ row }) => {
+        return (
+          <div className="text-center">
+            <Checkbox checked={row.original.enable} disabled />
+          </div>
+        );
+      },
+      formCell: (formControl, rowIndex) => {
         return (
           <FormField
             control={formControl}
-            name={`depts.${index}.enable`}
+            name={`depts.${rowIndex}.enable`}
             render={({ field }) => (
               <FormItem>
-                <div className="flex flex-row items-center space-x-3 space-y-0 overflow-hidden">
+                <div className="flex flex-row items-center justify-center space-x-3 space-y-0 overflow-hidden">
                   <FormControl>
                     <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                   </FormControl>
@@ -162,7 +155,7 @@ const UserForm = ({ open, setOpen, data, setReloadData }: UserFormProps) => {
     },
   ];
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = (values: FormSchema) => {
     // setBtnState('loading');
     console.log('values', values);
 
@@ -189,14 +182,6 @@ const UserForm = ({ open, setOpen, data, setReloadData }: UserFormProps) => {
       form.reset(data);
     }
   }, [open]);
-
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     setCompanyList(await optionService.query(optionService.authCompanyList));
-  //   }
-
-  //   fetchData();
-  // }, []);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -257,75 +242,13 @@ const UserForm = ({ open, setOpen, data, setReloadData }: UserFormProps) => {
 
                   <div className="col-span-full">
                     <FormDetail
+                      title={'所屬公司'}
                       columns={columns}
+                      isEdit
                       fieldArrayConfig={{ control: form.control, name: 'depts' }}
+                      appendConfig={{ value: { did: '', enable: true } }}
                     />
                   </div>
-
-                  {/* {
-                    <div className="col-span-full">
-                      <FormLabel>所屬公司</FormLabel>
-
-                      <Button
-                        type="button"
-                        size="icon"
-                        onClick={() => append([{ did: '', enable: true }])}
-                      >
-                        <FontAwesomeIcon icon={faPlus} />
-                      </Button>
-
-                      <div className="">
-                        {fields.map((field, index) => (
-                          <div key={field.id} className="grid grid-cols-3">
-                            <FormField
-                              control={form.control}
-                              name={`depts.${index}.did`}
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormControl>
-                                    <SelectAPI
-                                      api={optionService.authCompanyList}
-                                      onValueChange={field.onChange}
-                                      defaultValue={field.value}
-                                    />
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                            <FormField
-                              control={form.control}
-                              name={`depts.${index}.enable`}
-                              render={({ field }) => (
-                                <FormItem>
-                                  <div className="flex flex-row items-center space-x-3 space-y-0 overflow-hidden">
-                                    <FormControl>
-                                      <Checkbox
-                                        checked={field.value}
-                                        onCheckedChange={field.onChange}
-                                      />
-                                    </FormControl>
-                                    <FormLabel className="font-normal">
-                                      {t('field.enable')}
-                                    </FormLabel>
-                                  </div>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                            <Button
-                              type="button"
-                              variant="destructive"
-                              size="icon"
-                              onClick={() => remove(index)}
-                            >
-                              <FontAwesomeIcon icon={faTrash} />
-                            </Button>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  } */}
                 </div>
               </DialogScrollArea>
 
