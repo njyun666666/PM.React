@@ -63,3 +63,13 @@
     @apply pb-4 text-3xl font-bold;
   }
 }
+
+@layer components {
+  #tooltip-main {
+    @apply z-[1000] rounded-md border border-border bg-foreground px-3 py-1.5 text-sm text-background;
+  }
+
+  #tooltip-form-detail-action {
+    @apply z-[1000]  p-0;
+  }
+}

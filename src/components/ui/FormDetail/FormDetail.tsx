@@ -1,4 +1,4 @@
-import { flexRender, getCoreRowModel } from '@tanstack/react-table';
+import { createRow, flexRender, getCoreRowModel } from '@tanstack/react-table';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../table';
 import {
   ArrayPath,
@@ -13,8 +13,8 @@ import { Button } from '../button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { cn } from 'src/lib/utils';
-import { useTranslation } from 'react-i18next';
 import { FormDetailColumnDef, useFormDetail } from './FormDetailLib';
+import DataTableActions from '../datatable/DataTableActions';
 
 export interface FormDetailProps<
   TData,
@@ -46,12 +46,11 @@ const FormDetail = <TData, TValue, TFieldValues extends FieldValues>({
   appendConfig,
   className,
 }: FormDetailProps<TData, TValue, TFieldValues>) => {
-  const { t } = useTranslation();
   const { control: formControl } = fieldArrayConfig;
-  const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(fieldArrayConfig);
+  const { fields, append, remove, move, insert } = useFieldArray(fieldArrayConfig);
 
   const table = useFormDetail({
-    data: data ?? (isEdit ? (fields as TData[]) : []),
+    data: data ?? [],
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
@@ -61,11 +60,11 @@ const FormDetail = <TData, TValue, TFieldValues extends FieldValues>({
       <div className="mb-2 flex w-full items-center">
         <div className="grow text-sm">{title}</div>
 
-        {isEdit && appendConfig && (
+        {isEdit && (
           <Button
             type="button"
             size="icon-sm"
-            onClick={() => append(appendConfig.value, appendConfig.options)}
+            onClick={() => append(appendConfig!.value, appendConfig!.options)}
           >
             <FontAwesomeIcon icon={faPlus} />
           </Button>
@@ -86,50 +85,74 @@ const FormDetail = <TData, TValue, TFieldValues extends FieldValues>({
                     </TableHead>
                   );
                 })}
+
+                {isEdit && <TableHead className="w-4"></TableHead>}
               </TableRow>
             ))}
           </TableHeader>
           <TableBody>
-            {
-              table.getRowModel().rows?.length
-                ? //
-                  table.getRowModel().rows.map((row, rowIndex) => (
-                    <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
-                      {row.getVisibleCells().map((cell) => {
-                        const column = cell.column.columnDef as FormDetailColumnDef<
-                          TData,
-                          TValue,
-                          TFieldValues
-                        >;
+            {fields.map((item, rowIndex) => {
+              const row = createRow(table, item.id, item as TData, rowIndex, 0);
 
-                        if (isEdit && column.isEdit) {
-                          return (
-                            <TableCell key={cell.id}>
-                              {column.formCell &&
-                                formControl &&
-                                column.formCell(formControl, rowIndex, cell.getContext())}
-                            </TableCell>
-                          );
-                        }
+              return (
+                <TableRow key={item.id}>
+                  {row.getVisibleCells().map((cell) => {
+                    const columnDef = cell.column.columnDef as FormDetailColumnDef<
+                      TData,
+                      TValue,
+                      TFieldValues
+                    >;
+                    if (isEdit && columnDef.isEdit) {
+                      return (
+                        <TableCell key={cell.id}>
+                          {columnDef.formCell &&
+                            formControl &&
+                            columnDef.formCell(formControl, rowIndex, cell.getContext())}
+                        </TableCell>
+                      );
+                    }
 
-                        return (
-                          <TableCell key={cell.id}>
-                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  ))
-                : //
-                  !isEdit && (
-                    <TableRow>
-                      <TableCell colSpan={columns.length} className="h-24 text-center">
-                        {t('datatable.NoResults')}
+                    return (
+                      <TableCell key={cell.id}>
+                        {flexRender(columnDef.cell, cell.getContext())}
                       </TableCell>
-                    </TableRow>
-                  )
-              //
-            }
+                    );
+                  })}
+
+                  {isEdit && (
+                    <TableCell>
+                      <DataTableActions
+                        insertPrev={{
+                          onClick: () => {
+                            insert(rowIndex, appendConfig!.value);
+                          },
+                        }}
+                        insertNext={{
+                          onClick: () => {
+                            insert(rowIndex + 1, appendConfig!.value);
+                          },
+                        }}
+                        MoveUp={{
+                          onClick: () => {
+                            if (rowIndex > 0) move(rowIndex, rowIndex - 1);
+                          },
+                        }}
+                        MoveDown={{
+                          onClick: () => {
+                            if (rowIndex + 1 < fields.length) move(rowIndex, rowIndex + 1);
+                          },
+                        }}
+                        remove={{
+                          onClick: () => {
+                            remove(rowIndex);
+                          },
+                        }}
+                      />
+                    </TableCell>
+                  )}
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </div>

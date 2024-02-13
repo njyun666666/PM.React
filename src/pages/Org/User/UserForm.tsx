@@ -23,8 +23,8 @@ import {
   FormLabel,
   FormMessage,
 } from 'src/components/ui/form';
-import { useFieldArray, useForm } from 'react-hook-form';
-import { cn, uuid } from 'src/lib/utils';
+import { useForm } from 'react-hook-form';
+import { cn } from 'src/lib/utils';
 import { toast } from 'src/components/ui/use-toast';
 import { OrgUserViewModel } from 'src/lib/services/orgUserService';
 import { Checkbox } from 'src/components/ui/checkbox';
@@ -51,7 +51,7 @@ const UserForm = ({ open, setOpen, data, setReloadData }: UserFormProps) => {
       .string()
       .trim()
       .min(1, { message: t('message.required') }),
-    enable: z.boolean(),
+    enable: z.boolean().optional(),
   });
 
   const formSchema = z.object({
@@ -83,10 +83,7 @@ const UserForm = ({ open, setOpen, data, setReloadData }: UserFormProps) => {
       email: 'aa@aa.com',
       enable: true,
       did: '',
-      depts: [
-        { did: 'f1719f17ce05478d8ef3149c2754d5c8', enable: true },
-        { did: 'efe8d4b6744d7b4d443ac51a59f59a31', enable: true },
-      ],
+      depts: [{ did: '', enable: true }],
     },
   });
 

@@ -31,7 +31,12 @@
     "Search": "查詢",
     "Add": "新增",
     "Edit": "修改",
-    "Save": "儲存"
+    "Save": "儲存",
+    "Remove": "刪除",
+    "InsertPrev": "向上插入 1 列",
+    "InsertNext": "向下插入 1 列",
+    "MoveUp": "向上移動",
+    "MoveDown": "向下移動"
   },
   "title": {
     "Add": "新增{{title}}",
