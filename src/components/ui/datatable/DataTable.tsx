@@ -27,7 +27,7 @@ import { QueryViewModel, queryService } from 'src/lib/services/queryService';
 interface DataTableProps<TData, TValue, TFilter> {
   queryKey: string;
   columns: ColumnDef<TData, TValue>[];
-  reloadData?: number;
+  reloadData?: Date;
   api: string;
   filter: TFilter;
   queryOptions?: QueryObserverOptions<QueryViewModel<TData[]>>;
@@ -36,7 +36,7 @@ interface DataTableProps<TData, TValue, TFilter> {
 export default function DataTable<TData, TValue, TFilter>({
   queryKey,
   columns,
-  reloadData = 0,
+  reloadData,
   api,
   filter,
   queryOptions,

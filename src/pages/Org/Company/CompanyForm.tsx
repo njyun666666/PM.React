@@ -31,7 +31,7 @@ interface CompanyFormProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   data?: CompanyViewModel;
-  setReloadData: Dispatch<SetStateAction<number>>;
+  setReloadData: Dispatch<SetStateAction<Date>>;
 }
 
 const CompanyForm = ({ open, setOpen, data, setReloadData }: CompanyFormProps) => {
@@ -62,7 +62,7 @@ const CompanyForm = ({ open, setOpen, data, setReloadData }: CompanyFormProps) =
     orgDeptService
       .company(values)
       .then(() => {
-        setReloadData((prev) => prev + 1);
+        setReloadData(new Date());
         setBtnState('success');
         toast({ description: t(isAdd ? 'message.AddSuccess' : 'message.EditSuccess') });
         setOpen(false);

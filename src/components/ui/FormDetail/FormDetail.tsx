@@ -124,12 +124,12 @@ const FormDetail = <TData, TValue, TFieldValues extends FieldValues>({
                       <DataTableActions
                         insertPrev={{
                           onClick: () => {
-                            insert(rowIndex, appendConfig!.value);
+                            insert(rowIndex, appendConfig!.value, appendConfig!.options);
                           },
                         }}
                         insertNext={{
                           onClick: () => {
-                            insert(rowIndex + 1, appendConfig!.value);
+                            insert(rowIndex + 1, appendConfig!.value, appendConfig!.options);
                           },
                         }}
                         MoveUp={{

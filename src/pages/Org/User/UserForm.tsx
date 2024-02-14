@@ -26,7 +26,7 @@ import {
 import { useForm } from 'react-hook-form';
 import { cn } from 'src/lib/utils';
 import { toast } from 'src/components/ui/use-toast';
-import { OrgUserViewModel } from 'src/lib/services/orgUserService';
+import { OrgUserModel, OrgUserViewModel, orgUserService } from 'src/lib/services/orgUserService';
 import { Checkbox } from 'src/components/ui/checkbox';
 import { optionService } from 'src/lib/services/optionService';
 import SelectAPI from 'src/components/ui/SelectAPI';
@@ -37,8 +37,8 @@ import { FormDetailColumnDef } from 'src/components/ui/FormDetail/FormDetailLib'
 interface UserFormProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  data?: OrgUserViewModel;
-  setReloadData: Dispatch<SetStateAction<number>>;
+  data?: OrgUserModel;
+  setReloadData: Dispatch<SetStateAction<Date>>;
 }
 
 const UserForm = ({ open, setOpen, data, setReloadData }: UserFormProps) => {
@@ -68,23 +68,23 @@ const UserForm = ({ open, setOpen, data, setReloadData }: UserFormProps) => {
       .max(50)
       .email({ message: t('message.InvalidEmail') }),
     enable: z.boolean(),
-    did: z.string(),
     depts: detailSchema.array().optional(),
   });
 
   type FormSchema = z.infer<typeof formSchema>;
   type DetailSchema = z.infer<typeof detailSchema>;
 
+  const defaultValues: OrgUserModel = {
+    uid: '',
+    name: '',
+    email: '@example.com',
+    enable: true,
+    depts: [{ did: '', enable: true }],
+  };
+
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      uid: '',
-      name: 'aaa',
-      email: 'aa@aa.com',
-      enable: true,
-      did: '',
-      depts: [{ did: '', enable: true }],
-    },
+    defaultValues: defaultValues,
   });
 
   const columns: FormDetailColumnDef<DetailSchema, unknown, FormSchema>[] = [
@@ -153,36 +153,46 @@ const UserForm = ({ open, setOpen, data, setReloadData }: UserFormProps) => {
   ];
 
   const onSubmit = (values: FormSchema) => {
-    // setBtnState('loading');
+    setBtnState('loading');
     console.log('values', values);
 
-    // orgDeptService
-    //   .company(values)
-    //   .then(() => {
-    //     setReloadData((prev) => prev + 1);
-    //     setBtnState('success');
-    //     toast({ description: t(isAdd ? 'message.AddSuccess' : 'message.EditSuccess') });
-    //     setOpen(false);
-    //   })
-    //   .catch(() => {
-    //     toast({
-    //       variant: 'destructive',
-    //       description: t(isAdd ? 'message.AddFail' : 'message.EditFail'),
-    //     });
-    //     setBtnState('error');
-    //   });
+    orgUserService
+      .postUsers(values)
+      .then(() => {
+        setReloadData(new Date());
+        setBtnState('success');
+        toast({ description: t(isAdd ? 'message.AddSuccess' : 'message.EditSuccess') });
+        setOpen(false);
+      })
+      .catch(() => {
+        toast({
+          variant: 'destructive',
+          description: t(isAdd ? 'message.AddFail' : 'message.EditFail'),
+        });
+        setBtnState('error');
+      });
   };
 
   useEffect(() => {
-    if (open) {
-      setIsAdd(data === undefined);
-      form.reset(data);
-    }
+    const fetchData = async () => {
+      if (open) {
+        setIsAdd(data === undefined);
+
+        if (data !== undefined) {
+          const depts = await orgUserService.getDepts(data.uid);
+          form.reset({ ...data, depts: depts });
+        }
+      } else {
+        form.reset(defaultValues);
+      }
+    };
+
+    fetchData();
   }, [open]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:h-[90%]">
+      <DialogContent className="sm:h-[90%]" onPointerDownOutside={(e) => e.preventDefault()}>
         <Form {...form}>
           <DialogForm onSubmit={form.handleSubmit(onSubmit)}>
             <DialogMain>
@@ -239,11 +249,11 @@ const UserForm = ({ open, setOpen, data, setReloadData }: UserFormProps) => {
 
                   <div className="col-span-full">
                     <FormDetail
-                      title={'所屬公司'}
+                      title={t('field.company')}
                       columns={columns}
                       isEdit
                       fieldArrayConfig={{ control: form.control, name: 'depts' }}
-                      appendConfig={{ value: { did: '', enable: true } }}
+                      appendConfig={{ value: defaultValues.depts as DetailSchema[] }}
                     />
                   </div>
                 </div>

@@ -21,7 +21,7 @@ const CompanyPage = () => {
   const { formOpen, setFormOpen, formData, setFormData } = useFormStatus(
     orgDeptService.companyFormState
   );
-  const [reloadData, setReloadData] = useState(0);
+  const [reloadData, setReloadData] = useState(new Date());
   const [filter, setFilter] = useState<CompanyModel>();
 
   const formSchema = z.object({
