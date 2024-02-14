@@ -31,7 +31,7 @@ interface CompanyFormProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   data?: CompanyViewModel;
-  setReloadData: Dispatch<SetStateAction<number>>;
+  setReloadData: Dispatch<SetStateAction<Date>>;
 }
 
 const CompanyForm = ({ open, setOpen, data, setReloadData }: CompanyFormProps) => {
@@ -50,10 +50,6 @@ const CompanyForm = ({ open, setOpen, data, setReloadData }: CompanyFormProps) =
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      did: '',
-      deptName: '',
-    },
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
@@ -62,7 +58,7 @@ const CompanyForm = ({ open, setOpen, data, setReloadData }: CompanyFormProps) =
     orgDeptService
       .company(values)
       .then(() => {
-        setReloadData((prev) => prev + 1);
+        setReloadData(new Date());
         setBtnState('success');
         toast({ description: t(isAdd ? 'message.AddSuccess' : 'message.EditSuccess') });
         setOpen(false);
@@ -80,6 +76,11 @@ const CompanyForm = ({ open, setOpen, data, setReloadData }: CompanyFormProps) =
     if (open) {
       setIsAdd(data === undefined);
       form.reset(data);
+    } else {
+      form.reset({
+        did: '',
+        deptName: '',
+      });
     }
   }, [open]);
 

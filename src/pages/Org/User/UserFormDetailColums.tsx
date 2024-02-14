@@ -15,21 +15,21 @@ export const columns: ColumnDef<OrgUserViewModel>[] = [
     enableSorting: false,
     header: ({ column }) => <DataTableColumnHeader column={column} title={['field.enable']} />,
   },
-  // {
-  //   id: 'actions',
-  //   cell: ({ row }) => {
-  //     const { setFormOpen, setFormData } = useFormStatus(orgUserService.formState);
+  {
+    id: 'actions',
+    cell: ({ row }) => {
+      const { setFormOpen, setFormData } = useFormStatus(orgUserService.formState);
 
-  //     return (
-  //       <DataTableActions
-  //         edit={{
-  //           onClick: () => {
-  //             setFormData(row.original);
-  //             setFormOpen(true);
-  //           },
-  //         }}
-  //       />
-  //     );
-  //   },
-  // },
+      return (
+        <DataTableActions
+          edit={{
+            onClick: () => {
+              setFormData(row.original);
+              setFormOpen(true);
+            },
+          }}
+        />
+      );
+    },
+  },
 ];

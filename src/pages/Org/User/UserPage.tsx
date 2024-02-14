@@ -30,13 +30,14 @@ import UserForm from './UserForm';
 const CompanyPage = () => {
   const { t } = useTranslation();
   const { formOpen, setFormOpen, formData, setFormData } = useFormStatus(orgUserService.formState);
-  const [reloadData, setReloadData] = useState(0);
+  const [reloadData, setReloadData] = useState(new Date());
   const [filter, setFilter] = useState<OrgUserQueryModel>();
 
   const formSchema = z.object({
     rootDid: z.string().min(1, { message: t('message.required') }),
     name: z.string().trim().optional(),
     email: z.string().trim().optional(),
+    reloadData: z.date().optional(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -49,6 +50,7 @@ const CompanyPage = () => {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
+    values.reloadData = new Date();
     setFilter(values);
   };
 
@@ -120,8 +122,8 @@ const CompanyPage = () => {
                 </FormItem>
               )}
             />
-            <div className="flex items-center">
-              <Button type="submit">
+            <div className="flex ">
+              <Button type="submit" className="mt-8">
                 <FontAwesomeIcon icon={faSearch} />
               </Button>
             </div>
@@ -130,7 +132,6 @@ const CompanyPage = () => {
       </Form>
 
       <DataTable
-        queryKey="queryOrgUser"
         columns={columns}
         reloadData={reloadData}
         filter={filter}

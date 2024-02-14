@@ -31,7 +31,12 @@
     "Search": "Search",
     "Add": "Add",
     "Edit": "Edit",
-    "Save": "Save"
+    "Save": "Save",
+    "Remove": "Remove",
+    "InsertPrev": "Insert prev",
+    "InsertNext": "Insert next",
+    "MoveUp": "Move up",
+    "MoveDown": "Move down"
   },
   "title": {
     "Add": "Add {{title}}",
