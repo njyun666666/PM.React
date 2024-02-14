@@ -50,10 +50,6 @@ const CompanyForm = ({ open, setOpen, data, setReloadData }: CompanyFormProps) =
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      did: '',
-      deptName: '',
-    },
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
@@ -80,6 +76,11 @@ const CompanyForm = ({ open, setOpen, data, setReloadData }: CompanyFormProps) =
     if (open) {
       setIsAdd(data === undefined);
       form.reset(data);
+    } else {
+      form.reset({
+        did: '',
+        deptName: '',
+      });
     }
   }, [open]);
 

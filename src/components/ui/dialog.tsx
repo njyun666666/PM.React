@@ -127,7 +127,7 @@ const DialogScrollArea = ({
   <div className={cn('grow overflow-hidden', className)} {...props}>
     <ScrollArea className="h-full w-full">
       <ScrollBar orientation="horizontal" />
-      <div className="px-6">{children}</div>
+      <div className="px-6 py-1">{children}</div>
     </ScrollArea>
   </div>
 );

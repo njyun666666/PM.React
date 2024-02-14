@@ -37,6 +37,7 @@ const CompanyPage = () => {
     rootDid: z.string().min(1, { message: t('message.required') }),
     name: z.string().trim().optional(),
     email: z.string().trim().optional(),
+    reloadData: z.date().optional(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -49,6 +50,7 @@ const CompanyPage = () => {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
+    values.reloadData = new Date();
     setFilter(values);
   };
 
@@ -130,7 +132,6 @@ const CompanyPage = () => {
       </Form>
 
       <DataTable
-        queryKey="queryOrgUser"
         columns={columns}
         reloadData={reloadData}
         filter={filter}

@@ -25,7 +25,6 @@ import DataTableMessage from 'src/components/ui/datatable/DataTableMessage';
 import { QueryViewModel, queryService } from 'src/lib/services/queryService';
 
 interface DataTableProps<TData, TValue, TFilter> {
-  queryKey: string;
   columns: ColumnDef<TData, TValue>[];
   reloadData?: Date;
   api: string;
@@ -34,7 +33,6 @@ interface DataTableProps<TData, TValue, TFilter> {
 }
 
 export default function DataTable<TData, TValue, TFilter>({
-  queryKey,
   columns,
   reloadData,
   api,
@@ -59,7 +57,7 @@ export default function DataTable<TData, TValue, TFilter>({
   };
 
   const { isLoading, error, data } = useQuery({
-    queryKey: [queryKey, filterData, pagination, sorting, reloadData],
+    queryKey: [api, filterData, pagination, sorting, reloadData],
     queryFn: getData,
     ...queryOptions,
   });

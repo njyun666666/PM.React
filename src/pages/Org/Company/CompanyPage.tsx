@@ -26,6 +26,7 @@ const CompanyPage = () => {
 
   const formSchema = z.object({
     deptName: z.string().trim().optional(),
+    reloadData: z.date().optional(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -34,6 +35,7 @@ const CompanyPage = () => {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
+    values.reloadData = new Date();
     setFilter(values);
   };
 
@@ -79,7 +81,6 @@ const CompanyPage = () => {
       </Form>
 
       <DataTable
-        queryKey="queryCompany"
         columns={columns}
         reloadData={reloadData}
         filter={filter}
