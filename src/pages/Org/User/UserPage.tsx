@@ -1,9 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import Page from 'src/pages/Page';
 import { columns } from './UserColums';
-import { useEffect, useState } from 'react';
-import { CompanyModel, CompanyViewModel, orgDeptService } from 'src/lib/services/orgDeptService';
-// import CompanyForm from './CompanyForm';
+import { useState } from 'react';
 import { useFormStatus } from 'src/lib/common';
 import { Button } from 'src/components/ui/button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -32,6 +30,7 @@ const CompanyPage = () => {
   const { formOpen, setFormOpen, formData, setFormData } = useFormStatus(orgUserService.formState);
   const [reloadData, setReloadData] = useState(new Date());
   const [filter, setFilter] = useState<OrgUserQueryModel>();
+  const [queryEnabled, setQueryEnabled] = useState(false);
 
   const formSchema = z.object({
     rootDid: z.string().min(1, { message: t('message.required') }),
@@ -57,7 +56,6 @@ const CompanyPage = () => {
   return (
     <Page title={t('page.OrgUser')}>
       <h1>{t('page.OrgUser')}</h1>
-
       <Toolbar>
         <Button
           size="sm"
@@ -136,7 +134,7 @@ const CompanyPage = () => {
         reloadData={reloadData}
         filter={filter}
         api={orgUserService.queryAPI}
-        queryOptions={{ enabled: !!filter }}
+        queryOptions={{ staleTime: Infinity }}
       />
 
       <UserForm
