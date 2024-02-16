@@ -67,6 +67,7 @@
     "AddFail": "新增失敗",
     "DeleteFail": "刪除失敗",
     "InvalidEmail": "無效Email",
-    "NoFound": "沒有找到"
+    "NoFound": "沒有找到",
+    "At least {{number}} entry is required": "至少輸入 {{number}} 筆"
   }
 }

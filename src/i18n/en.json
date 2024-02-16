@@ -67,6 +67,7 @@
     "AddFail": "Add failed",
     "DeleteFail": "Delete failed",
     "InvalidEmail": "Invalid Email",
-    "NoFound": "No found"
+    "NoFound": "No found",
+    "At least {{number}} entry is required": "At least {{number}} entry is required"
   }
 }
