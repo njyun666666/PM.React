@@ -5,6 +5,7 @@ import { useSetRecoilState } from 'recoil';
 import { loginService } from './lib/services/loginService';
 import { Toaster } from './components/ui/toaster';
 import { Tooltip } from 'react-tooltip';
+import AlertDialogMain from './components/ui/AlertDialogMain';
 
 const App = () => {
   loginService.setLoginState = useSetRecoilState(loginService.loginState);
@@ -24,6 +25,7 @@ const App = () => {
       <RouterProvider router={router} />
       <Toaster />
       <Tooltip id="tooltip-main" clickable opacity={100} />
+      <AlertDialogMain />
     </>
   );
 };

@@ -36,7 +36,9 @@
     "InsertPrev": "Insert prev",
     "InsertNext": "Insert next",
     "MoveUp": "Move up",
-    "MoveDown": "Move down"
+    "MoveDown": "Move down",
+    "OK": "OK",
+    "Cancel": "Cancel"
   },
   "title": {
     "Add": "Add {{title}}",
