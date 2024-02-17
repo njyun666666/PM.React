@@ -24,13 +24,13 @@ import Combobox from 'src/components/ui/Combobox';
 import { optionService } from 'src/lib/services/optionService';
 import { OrgUserQueryModel, orgUserService } from 'src/lib/services/orgUserService';
 import UserForm from './UserForm';
+import SelectAPI from 'src/components/ui/SelectAPI';
 
 const CompanyPage = () => {
   const { t } = useTranslation();
   const { formOpen, setFormOpen, formData, setFormData } = useFormStatus(orgUserService.formState);
   const [reloadData, setReloadData] = useState(new Date());
   const [filter, setFilter] = useState<OrgUserQueryModel>();
-  const [queryEnabled, setQueryEnabled] = useState(false);
 
   const formSchema = z.object({
     rootDid: z.string().min(1, { message: t('message.required') }),
@@ -79,14 +79,19 @@ const CompanyPage = () => {
                 <FormItem>
                   <FormLabel>{t('field.company')}</FormLabel>
                   <FormControl>
-                    <Combobox
+                    <SelectAPI
+                      api={optionService.authCompanyList}
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    />
+                    {/* <Combobox
                       value={field.value}
                       onSelect={(item) => form.setValue(field.name, item.value)}
                       api={optionService.authCompanyList}
                       isInputManual
                       className="w-full"
                       contentClassName="min-w-[200px] w-min"
-                    />
+                    />*/}
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -134,7 +139,10 @@ const CompanyPage = () => {
         reloadData={reloadData}
         filter={filter}
         api={orgUserService.queryAPI}
-        queryOptions={{ staleTime: Infinity }}
+        queryEnabled={!!filter}
+        queryOptions={{
+          staleTime: Infinity,
+        }}
       />
 
       <UserForm
