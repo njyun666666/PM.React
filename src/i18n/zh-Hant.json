@@ -36,7 +36,9 @@
     "InsertPrev": "向上插入 1 列",
     "InsertNext": "向下插入 1 列",
     "MoveUp": "向上移動",
-    "MoveDown": "向下移動"
+    "MoveDown": "向下移動",
+    "OK": "確定",
+    "Cancel": "取消"
   },
   "title": {
     "Add": "新增{{title}}",
@@ -65,6 +67,7 @@
     "AddFail": "新增失敗",
     "DeleteFail": "刪除失敗",
     "InvalidEmail": "無效Email",
-    "NoFound": "沒有找到"
+    "NoFound": "沒有找到",
+    "At least {{number}} entry is required": "至少輸入 {{number}} 筆"
   }
 }

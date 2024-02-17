@@ -27,16 +27,14 @@ export type FormDetailColumnDef<
   ) => React.ReactNode;
 };
 
-export interface FormDetailTableOptions<TData, TFieldValues extends FieldValues>
-  extends TableOptions<TData> {}
+export interface FormDetailTableOptions<TData> extends TableOptions<TData> {}
 
-export interface FormDetailTable<TData extends RowData, TFieldValues extends FieldValues>
-  extends Table<TData> {}
+export interface FormDetailTable<TData extends RowData> extends Table<TData> {}
 
-export const useFormDetail = <TData extends RowData, TFieldValues extends FieldValues>(
-  options: FormDetailTableOptions<TData, TFieldValues>
-): FormDetailTable<TData, TFieldValues> => {
-  const table = useReactTable(options) as FormDetailTable<TData, TFieldValues>;
+export const useFormDetail = <TData extends RowData>(
+  options: FormDetailTableOptions<TData>
+): FormDetailTable<TData> => {
+  const table = useReactTable(options) as FormDetailTable<TData>;
 
   return table;
 };

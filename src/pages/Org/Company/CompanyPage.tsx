@@ -85,6 +85,7 @@ const CompanyPage = () => {
         reloadData={reloadData}
         filter={filter}
         api={orgDeptService.queryCompanyAPI}
+        queryOptions={{ staleTime: Infinity }}
       />
 
       <CompanyForm

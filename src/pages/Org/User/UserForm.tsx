@@ -24,9 +24,8 @@ import {
   FormMessage,
 } from 'src/components/ui/form';
 import { useForm } from 'react-hook-form';
-import { cn } from 'src/lib/utils';
 import { toast } from 'src/components/ui/use-toast';
-import { OrgUserModel, OrgUserViewModel, orgUserService } from 'src/lib/services/orgUserService';
+import { OrgUserModel, orgUserService } from 'src/lib/services/orgUserService';
 import { Checkbox } from 'src/components/ui/checkbox';
 import { optionService } from 'src/lib/services/optionService';
 import SelectAPI from 'src/components/ui/SelectAPI';
@@ -68,7 +67,9 @@ const UserForm = ({ open, setOpen, data, setReloadData }: UserFormProps) => {
       .max(50)
       .email({ message: t('message.InvalidEmail') }),
     enable: z.boolean(),
-    depts: detailSchema.array().optional(),
+    depts: detailSchema
+      .array()
+      .min(1, { message: t('message.At least {{number}} entry is required', { number: 1 }) }),
   });
 
   type FormSchema = z.infer<typeof formSchema>;
@@ -154,7 +155,6 @@ const UserForm = ({ open, setOpen, data, setReloadData }: UserFormProps) => {
 
   const onSubmit = (values: FormSchema) => {
     setBtnState('loading');
-    console.log('values', values);
 
     orgUserService
       .postUsers(values)
@@ -248,12 +248,21 @@ const UserForm = ({ open, setOpen, data, setReloadData }: UserFormProps) => {
                   />
 
                   <div className="col-span-full">
-                    <FormDetail
-                      title={t('field.company')}
-                      columns={columns}
-                      isEdit
-                      fieldArrayConfig={{ control: form.control, name: 'depts' }}
-                      appendConfig={{ value: defaultValues.depts as DetailSchema[] }}
+                    <FormField
+                      control={form.control}
+                      name="depts"
+                      render={() => (
+                        <FormItem>
+                          <FormDetail
+                            title={<FormLabel>{t('field.company')}</FormLabel>}
+                            columns={columns}
+                            isEdit
+                            fieldArrayConfig={{ control: form.control, name: 'depts' }}
+                            appendConfig={{ value: defaultValues.depts as DetailSchema[] }}
+                          />
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
                   </div>
                 </div>

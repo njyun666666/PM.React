@@ -36,7 +36,9 @@
     "InsertPrev": "Insert prev",
     "InsertNext": "Insert next",
     "MoveUp": "Move up",
-    "MoveDown": "Move down"
+    "MoveDown": "Move down",
+    "OK": "OK",
+    "Cancel": "Cancel"
   },
   "title": {
     "Add": "Add {{title}}",
@@ -65,6 +67,7 @@
     "AddFail": "Add failed",
     "DeleteFail": "Delete failed",
     "InvalidEmail": "Invalid Email",
-    "NoFound": "No found"
+    "NoFound": "No found",
+    "At least {{number}} entry is required": "At least {{number}} entry is required"
   }
 }

@@ -29,6 +29,7 @@ interface DataTableProps<TData, TValue, TFilter> {
   reloadData?: Date;
   api: string;
   filter: TFilter;
+  queryEnabled?: boolean;
   queryOptions?: QueryObserverOptions<QueryViewModel<TData[]>>;
 }
 
@@ -37,8 +38,10 @@ export default function DataTable<TData, TValue, TFilter>({
   reloadData,
   api,
   filter,
+  queryEnabled = true,
   queryOptions,
 }: DataTableProps<TData, TValue, TFilter>) {
+  const [enabled, setEnabled] = useState(queryEnabled);
   const [sorting, setSorting] = useState<SortingState>();
   const [filterData, setFilterData] = useState<TFilter>();
   const [pagination, setPagination] = useState<PaginationState>({
@@ -59,6 +62,7 @@ export default function DataTable<TData, TValue, TFilter>({
   const { isLoading, error, data } = useQuery({
     queryKey: [api, filterData, pagination, sorting, reloadData],
     queryFn: getData,
+    enabled: enabled,
     ...queryOptions,
   });
 
@@ -86,6 +90,10 @@ export default function DataTable<TData, TValue, TFilter>({
     table.resetPageIndex();
     setFilterData(filter);
   }, [filter]);
+
+  useEffect(() => {
+    setEnabled(queryEnabled);
+  }, [queryEnabled]);
 
   return (
     <div>

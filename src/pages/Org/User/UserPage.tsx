@@ -1,9 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import Page from 'src/pages/Page';
 import { columns } from './UserColums';
-import { useEffect, useState } from 'react';
-import { CompanyModel, CompanyViewModel, orgDeptService } from 'src/lib/services/orgDeptService';
-// import CompanyForm from './CompanyForm';
+import { useState } from 'react';
 import { useFormStatus } from 'src/lib/common';
 import { Button } from 'src/components/ui/button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -22,10 +20,11 @@ import {
   FormMessage,
 } from 'src/components/ui/form';
 import { Input } from 'src/components/ui/input';
-import Combobox from 'src/components/ui/Combobox';
+// import Combobox from 'src/components/ui/Combobox';
 import { optionService } from 'src/lib/services/optionService';
 import { OrgUserQueryModel, orgUserService } from 'src/lib/services/orgUserService';
 import UserForm from './UserForm';
+import SelectAPI from 'src/components/ui/SelectAPI';
 
 const CompanyPage = () => {
   const { t } = useTranslation();
@@ -57,7 +56,6 @@ const CompanyPage = () => {
   return (
     <Page title={t('page.OrgUser')}>
       <h1>{t('page.OrgUser')}</h1>
-
       <Toolbar>
         <Button
           size="sm"
@@ -81,14 +79,19 @@ const CompanyPage = () => {
                 <FormItem>
                   <FormLabel>{t('field.company')}</FormLabel>
                   <FormControl>
-                    <Combobox
+                    <SelectAPI
+                      api={optionService.authCompanyList}
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    />
+                    {/* <Combobox
                       value={field.value}
                       onSelect={(item) => form.setValue(field.name, item.value)}
                       api={optionService.authCompanyList}
                       isInputManual
                       className="w-full"
                       contentClassName="min-w-[200px] w-min"
-                    />
+                    />*/}
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -136,7 +139,10 @@ const CompanyPage = () => {
         reloadData={reloadData}
         filter={filter}
         api={orgUserService.queryAPI}
-        queryOptions={{ enabled: !!filter }}
+        queryEnabled={!!filter}
+        queryOptions={{
+          staleTime: Infinity,
+        }}
       />
 
       <UserForm
