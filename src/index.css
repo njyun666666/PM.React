@@ -66,10 +66,6 @@
 
 @layer components {
   #tooltip-main {
-    @apply z-[1000] rounded-md border border-border bg-foreground px-3 py-1.5 text-sm text-background;
-  }
-
-  #tooltip-form-detail-action {
-    @apply z-[1000]  p-0;
+    @apply z-[1000] rounded-md bg-foreground px-3 py-1.5 text-sm text-background;
   }
 }

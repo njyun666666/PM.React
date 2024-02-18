@@ -28,15 +28,15 @@ export const alertDialogMainState = atom<AlertDialogMainProps>({
   default: {},
 });
 
-export const alertDialogResolveState = atom<{ resolve?: (value: boolean) => void }>({
-  key: 'alertDialogResolveState',
+export const alertDialogMainResolveState = atom<{ resolve?: (value: boolean) => void }>({
+  key: 'alertDialogMainResolveState',
   default: {},
 });
 
 export const useAlertDialog = () => {
   const setOpen = useSetRecoilState(alertDialogMainOpenState);
   const setProps = useSetRecoilState(alertDialogMainState);
-  const setResolve = useSetRecoilState(alertDialogResolveState);
+  const setResolve = useSetRecoilState(alertDialogMainResolveState);
 
   const alertDialog = (props: AlertDialogMainProps) =>
     new Promise<boolean>((resolve) => {
@@ -51,7 +51,7 @@ export const useAlertDialog = () => {
 const AlertDialogMain = () => {
   const [open, setOpen] = useRecoilState(alertDialogMainOpenState);
   const { title, content, Cancel, ok } = useRecoilValue(alertDialogMainState);
-  const resolve = useRecoilValue(alertDialogResolveState);
+  const resolve = useRecoilValue(alertDialogMainResolveState);
   const { t } = useTranslation();
 
   const buttonHandle = (result: boolean) => {
