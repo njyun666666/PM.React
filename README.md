@@ -10,7 +10,7 @@
 - 多國語系
 - 串接 API
 - 資料新增修改
-- JWT 登入
+- JWT 驗證登入
 - 製作共用元件
   - DataTable
   - Form Detail
