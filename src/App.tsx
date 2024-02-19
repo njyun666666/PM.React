@@ -5,7 +5,7 @@ import { useSetRecoilState } from 'recoil';
 import { loginService } from './lib/services/loginService';
 import { Toaster } from './components/ui/toaster';
 import { Tooltip } from 'react-tooltip';
-import AlertDialogMain from './components/ui/AlertDialogMain';
+import AlertDialogMain from './components/ui/Alert-DialogMain';
 
 const App = () => {
   loginService.setLoginState = useSetRecoilState(loginService.loginState);

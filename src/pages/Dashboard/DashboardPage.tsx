@@ -1,7 +1,7 @@
 import { Button } from 'src/components/ui/button';
 import Page from '../Page';
-import { useAlertDialog } from 'src/components/ui/AlertDialogMain';
 import { toast } from 'src/components/ui/use-toast';
+import { useAlertDialog } from 'src/components/ui/Alert-DialogMain';
 
 const DashboardPage = () => {
   const { alertDialog } = useAlertDialog();
@@ -29,8 +29,14 @@ const DashboardPage = () => {
   return (
     <Page title="Dashboard">
       <div className="space-y-2">
-        <div className="space-x-2">
-          <Button onClick={confirmHandle}>confirm</Button>
+        <div className="space-x-2  p-20">
+          <Button
+            onClick={confirmHandle}
+            data-tooltip-id="tooltip-main"
+            data-tooltip-content={'aaaaaaaa'}
+          >
+            confirm
+          </Button>
           <Button onClick={confirmHandle2}>confirm2</Button>
           <Button onClick={confirmHandle3}>confirm3</Button>
         </div>
