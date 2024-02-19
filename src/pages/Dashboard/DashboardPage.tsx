@@ -29,14 +29,8 @@ const DashboardPage = () => {
   return (
     <Page title="Dashboard">
       <div className="space-y-2">
-        <div className="space-x-2  p-20">
-          <Button
-            onClick={confirmHandle}
-            data-tooltip-id="tooltip-main"
-            data-tooltip-content={'aaaaaaaa'}
-          >
-            confirm
-          </Button>
+        <div className="space-x-2">
+          <Button onClick={confirmHandle}>confirm1</Button>
           <Button onClick={confirmHandle2}>confirm2</Button>
           <Button onClick={confirmHandle3}>confirm3</Button>
         </div>
