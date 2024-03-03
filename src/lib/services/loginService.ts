@@ -26,7 +26,7 @@ interface UserPayload extends JwtPayload {
 class LoginService {
   loginState = atom<boolean>({
     key: 'loginState',
-    default: !!this.getToken().access_token,
+    default: !!this.payload(),
   });
 
   setLoginState!: SetterOrUpdater<boolean>;
@@ -44,10 +44,16 @@ class LoginService {
   }
 
   payload() {
-    const access_token = this.getToken().access_token;
-    if (access_token) {
-      return jwtDecode(access_token) as UserPayload;
+    try {
+      const access_token = this.getToken().access_token;
+      if (access_token) {
+        return jwtDecode(access_token) as UserPayload;
+      }
+    } catch (error) {
+      return undefined;
     }
+
+    return undefined;
   }
 
   login(data: LoginModel) {
