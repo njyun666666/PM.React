@@ -96,7 +96,7 @@ const LoginPage = () => {
                   <FormItem>
                     <FormLabel>{t('field.email')}</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input {...field} autoComplete="username" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -110,7 +110,7 @@ const LoginPage = () => {
                   <FormItem>
                     <FormLabel>{t('field.password')}</FormLabel>
                     <FormControl>
-                      <Input {...field} type="password" />
+                      <Input {...field} type="password" autoComplete="current-password" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
