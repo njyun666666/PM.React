@@ -5,6 +5,7 @@ import LoginPage from './pages/Login/LoginPage';
 import UserPage from './pages/Org/User/UserPage';
 import CompanyPage from './pages/Org/Company/CompanyPage';
 import RolesRouter from './layouts/RolesRouter';
+import AuthPage from './pages/Auth/AuthPage';
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
             element: <UserPage />,
           },
         ],
+      },
+      {
+        path: 'auth',
+        element: <RolesRouter roles={['administrator', 'organization']} element={<AuthPage />} />,
       },
     ],
   },
