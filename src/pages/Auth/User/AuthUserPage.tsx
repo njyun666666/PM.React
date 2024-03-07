@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import Page from '../Page';
+import Page from '../../Page';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -20,7 +20,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import Combobox from 'src/components/ui/Combobox';
 
-const AuthPage = () => {
+const AuthUserPage = () => {
   const { t } = useTranslation();
   const formSchema = z.object({
     rootDid: z.string().min(1, { message: t('message.required') }),
@@ -44,8 +44,8 @@ const AuthPage = () => {
   };
 
   return (
-    <Page title={t('page.Auth')}>
-      <h1>{t('page.Auth')}</h1>
+    <Page title={t('page.AuthUser')}>
+      <h1>{t('page.AuthUser')}</h1>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -82,7 +82,6 @@ const AuthPage = () => {
                         routerPara: [watchRootDid],
                       }}
                       onValueChange={field.onChange}
-                      //   defaultValue={field.value}
                       queryOptions={{ enabled: !!watchRootDid }}
                     />
                     {/* <Combobox
@@ -112,4 +111,4 @@ const AuthPage = () => {
   );
 };
 
-export default AuthPage;
+export default AuthUserPage;
