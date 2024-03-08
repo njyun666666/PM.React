@@ -1,23 +1,11 @@
-import { useState } from 'react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './accordion';
-import { cn } from 'src/lib/utils';
 import { Skeleton } from './skeleton';
 
-export interface TreeModel<T> {
-  id: string;
-  element: React.ReactNode;
-  data: T;
-  selected?: boolean;
-  expanded?: boolean;
-  children?: TreeModel<T>[];
-}
-
-export interface TreeProps<T> {
-  data: TreeModel<T>[];
+export interface TreeProps extends React.HTMLAttributes<HTMLDivElement> {
   isLoading?: boolean;
 }
 
-const Tree = <T,>({ data, isLoading = false }: TreeProps<T>) => {
+export const Tree = ({ isLoading = false, children }: TreeProps) => {
   if (isLoading) {
     return (
       <div className="w-full space-y-1.5">
@@ -30,57 +18,41 @@ const Tree = <T,>({ data, isLoading = false }: TreeProps<T>) => {
     );
   }
 
-  if (data.length === 0) {
-    return <></>;
-  }
-
-  return (
-    <Accordion
-      type="multiple"
-      className="w-full"
-      defaultValue={data.filter((x) => x.expanded).map((x) => x.id)}
-    >
-      {data.map((item) => (
-        <TreeItem key={item.id} data={item} />
-      ))}
-    </Accordion>
-  );
+  return <div className="w-full">{children}</div>;
 };
 
-interface TreeItemProps<T> {
-  data: TreeModel<T>;
+export interface TreeItemProps extends React.HTMLAttributes<HTMLDivElement> {
+  itemID: string;
+  expanded?: boolean;
+  element: React.ReactNode;
 }
 
-const TreeItem = <T,>({ data }: TreeItemProps<T>) => {
-  if (!data.children || data.children.length === 0) {
+export const TreeItem = ({ itemID, expanded = false, element, children }: TreeItemProps) => {
+  if (!children) {
     return (
-      <AccordionItem value={data.id} className="mb-1.5 flex items-center border-0">
-        <AccordionTrigger className="invisible mr-1.5 rounded p-3 hover:bg-accent" />
-        {data.element}
-      </AccordionItem>
+      <Accordion type="single" className="w-full ">
+        <AccordionItem value={itemID} className="mb-1.5 flex items-center border-0">
+          <AccordionTrigger className="invisible mr-1.5 rounded p-3 hover:bg-accent" />
+          {element}
+        </AccordionItem>
+      </Accordion>
     );
   }
 
   return (
-    <AccordionItem value={data.id} className="border-0">
-      <div className="mb-1.5 flex items-center">
-        <AccordionTrigger className="mr-1.5 rounded p-3 hover:bg-accent" />
-        {data.element}
-      </div>
-
-      <AccordionContent className={cn('pl-5 !duration-200')}>
-        <Accordion
-          type="multiple"
-          className="w-full"
-          defaultValue={data.children.filter((x) => x.expanded).map((x) => x.id)}
-        >
-          {data.children.map((item) => (
-            <TreeItem key={item.id} data={item} />
-          ))}
-        </Accordion>
-      </AccordionContent>
-    </AccordionItem>
+    <Accordion
+      type="single"
+      className="w-full"
+      collapsible
+      defaultValue={expanded ? itemID : undefined}
+    >
+      <AccordionItem value={itemID} className="border-0">
+        <div className="mb-1.5 flex items-center">
+          <AccordionTrigger className="mr-1.5 rounded p-3 hover:bg-accent" />
+          {element}
+        </div>
+        <AccordionContent className={'pl-5 !duration-200'}>{children}</AccordionContent>
+      </AccordionItem>
+    </Accordion>
   );
 };
-
-export default Tree;
