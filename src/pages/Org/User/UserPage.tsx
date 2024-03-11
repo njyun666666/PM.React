@@ -80,18 +80,10 @@ const CompanyPage = () => {
                   <FormLabel>{t('field.company')}</FormLabel>
                   <FormControl>
                     <SelectAPI
-                      api={optionService.authCompanyList}
+                      optionQueryProps={{ api: optionService.authCompanyList }}
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     />
-                    {/* <Combobox
-                      value={field.value}
-                      onSelect={(item) => form.setValue(field.name, item.value)}
-                      api={optionService.authCompanyList}
-                      isInputManual
-                      className="w-full"
-                      contentClassName="min-w-[200px] w-min"
-                    />*/}
                   </FormControl>
                   <FormMessage />
                 </FormItem>

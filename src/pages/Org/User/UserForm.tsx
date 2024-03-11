@@ -106,7 +106,7 @@ const UserForm = ({ open, setOpen, data, setReloadData }: UserFormProps) => {
               <FormItem>
                 <FormControl>
                   <SelectAPI
-                    api={optionService.authCompanyList}
+                    optionQueryProps={{ api: optionService.authCompanyList }}
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   />

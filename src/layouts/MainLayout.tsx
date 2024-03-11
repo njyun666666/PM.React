@@ -110,7 +110,7 @@ const MainLayout = () => {
 
       {navOpenState && (
         <div
-          className={cn('absolute left-0 top-0 z-[9] h-full w-full bg-background/90 duration-200')}
+          className={cn('absolute left-0 top-0 z-[9] h-full w-full bg-black/80 duration-200')}
           onClick={() => setNavOpenState((prev) => !prev)}
         ></div>
       )}

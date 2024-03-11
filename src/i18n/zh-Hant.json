@@ -9,7 +9,10 @@
     "OrgCompany": "公司",
     "OrgDept": "部門",
     "OrgUser": "使用者",
-    "Auth": "權限"
+    "Auth": "權限",
+    "AuthMenu": "選單管理",
+    "AuthRole": "角色權限",
+    "AuthUser": "使用者權限"
   },
   "login": {
     "title": "登入",

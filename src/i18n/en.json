@@ -9,7 +9,10 @@
     "OrgCompany": "Company",
     "OrgDept": "Department",
     "OrgUser": "User",
-    "Auth": "Auth"
+    "Auth": "Auth",
+    "AuthMenu": "Menu management",
+    "AuthRole": "Role authorization",
+    "AuthUser": "User authorization"
   },
   "login": {
     "title": "Login",

@@ -9,55 +9,59 @@ import {
   CommandItem,
 } from '../ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { useQuery } from '@tanstack/react-query';
-import { OptionModel, optionService } from 'src/lib/services/optionService';
+import { OptionModel, OptionQueryProps, optionService } from 'src/lib/services/optionService';
 import { ScrollArea } from './scroll-area';
 import { useTranslation } from 'react-i18next';
 import { Skeleton } from './skeleton';
-import { useDebounce } from 'react-use';
+import { useDebounce, useUpdateEffect } from 'react-use';
 
 export interface ComboboxProps {
-  value: string;
-  onSelect?: (item: OptionModel) => void;
+  onValueChange?: (val: string) => void;
   optionsData?: OptionModel[];
-  api?: string;
-  isInputManual?: boolean;
+  optionQueryProps?: OptionQueryProps;
   className?: string;
   contentClassName?: string;
 }
 
 export default function Combobox({
-  value,
-  onSelect,
+  onValueChange,
   optionsData,
-  api,
-  isInputManual = false,
+  optionQueryProps,
   className,
   contentClassName,
 }: ComboboxProps) {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
+  const [value, setValue] = useState<OptionModel>({ label: '', value: '' });
   const [options, setOptions] = useState<OptionModel[]>();
   const [filter, setFilter] = useState('');
   const [debouncedValue, setDebouncedValue] = useState('');
   const [isDebounced, setIsDebounced] = useState(false);
 
-  const getData = () => {
-    if (!api) return;
+  const filterString = useMemo(() => {
+    return JSON.stringify(optionQueryProps);
+  }, [optionQueryProps]);
 
-    return optionService.query(api, filter);
+  const getData = () => {
+    if (!optionQueryProps) return;
+
+    return optionService.query({
+      ...optionQueryProps,
+      filter: { ...optionQueryProps.filter, input: debouncedValue },
+    });
   };
 
   const queryResult =
-    api &&
+    optionQueryProps &&
     useQuery({
-      queryKey: [api, isInputManual ? debouncedValue : filter],
+      queryKey: [optionQueryProps, debouncedValue],
       queryFn: getData,
       staleTime: 30 * 60 * 1000,
-      enabled: isInputManual ? !!filter : true,
+      enabled: !!debouncedValue,
     });
 
   useDebounce(
@@ -79,21 +83,26 @@ export default function Combobox({
 
   useEffect(() => {
     setOpen(false);
+    if (onValueChange) onValueChange(value.value);
   }, [value]);
+
+  useUpdateEffect(() => {
+    setValue({ label: '', value: '' });
+  }, [filterString]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button variant="outline" role="combobox" aria-expanded={open} className={className}>
           <span className="flex w-full justify-between">
-            <span>{value ? options?.find((option) => option.value === value)?.label : ''}</span>
+            <span>{value?.label}</span>
             <FontAwesomeIcon icon={faChevronDown} className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </span>
         </Button>
       </PopoverTrigger>
       <PopoverContent className={cn('p-0', contentClassName)}>
         <Command>
-          {isInputManual ? (
+          {optionQueryProps ? (
             <CommandInputManual
               value={filter}
               onChange={(e) => {
@@ -105,15 +114,15 @@ export default function Combobox({
             <CommandInput />
           )}
 
-          {!isInputManual && <CommandEmpty>{t('message.NoFound')}</CommandEmpty>}
+          {!optionQueryProps && <CommandEmpty>{t('message.NoFound')}</CommandEmpty>}
 
           <CommandGroup className={cn()}>
             <ScrollArea className={cn('h-60')}>
-              {(queryResult && queryResult.isLoading) || (isInputManual && isDebounced) ? (
+              {optionQueryProps && ((queryResult && queryResult.isLoading) || isDebounced) ? (
                 <Skeleton className="h-8 w-full" />
               ) : (
                 <>
-                  {isInputManual && queryResult && queryResult.data?.length === 0 && (
+                  {optionQueryProps && queryResult && queryResult.data?.length === 0 && (
                     <CommandEmpty>{t('message.NoFound')}</CommandEmpty>
                   )}
 
@@ -122,7 +131,7 @@ export default function Combobox({
                       key={option.value}
                       value={option.label}
                       onSelect={() => {
-                        if (onSelect) onSelect(option);
+                        setValue(option);
                       }}
                     >
                       {option.label}
