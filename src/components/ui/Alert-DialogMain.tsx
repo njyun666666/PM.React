@@ -14,8 +14,10 @@ import { useTranslation } from 'react-i18next';
 export interface AlertDialogMainProps {
   title?: React.ReactNode;
   content?: React.ReactNode;
-  Cancel?: React.ReactNode;
+  cancel?: React.ReactNode;
+  showCancel?: boolean;
   ok?: React.ReactNode;
+  showOk?: boolean;
 }
 
 export const alertDialogMainOpenState = atom({
@@ -50,7 +52,14 @@ export const useAlertDialog = () => {
 
 const AlertDialogMain = () => {
   const [open, setOpen] = useRecoilState(alertDialogMainOpenState);
-  const { title, content, Cancel, ok } = useRecoilValue(alertDialogMainState);
+  const {
+    title,
+    content,
+    cancel,
+    showCancel = true,
+    ok,
+    showOk = true,
+  } = useRecoilValue(alertDialogMainState);
   const resolve = useRecoilValue(alertDialogMainResolveState);
   const { t } = useTranslation();
 
@@ -70,12 +79,17 @@ const AlertDialogMain = () => {
           <AlertDialogDescription>{content}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={() => buttonHandle(false)}>
-            {Cancel ?? t('action.Cancel')}
-          </AlertDialogCancel>
-          <AlertDialogAction onClick={() => buttonHandle(true)}>
-            {ok ?? t('action.OK')}
-          </AlertDialogAction>
+          {showCancel && (
+            <AlertDialogCancel onClick={() => buttonHandle(false)}>
+              {cancel ?? t('action.Cancel')}
+            </AlertDialogCancel>
+          )}
+
+          {showOk && (
+            <AlertDialogAction onClick={() => buttonHandle(true)}>
+              {ok ?? t('action.OK')}
+            </AlertDialogAction>
+          )}
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

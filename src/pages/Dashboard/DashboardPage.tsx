@@ -16,13 +16,17 @@ const DashboardPage = () => {
       title: 'Test 2',
       content: 'this is content',
       ok: 'yes',
-      Cancel: 'no',
+      cancel: 'no',
     });
     toast({ title: '2: ' + result.toString(), variant: result ? 'default' : 'destructive' });
   };
 
   const confirmHandle3 = async () => {
-    const result = await alertDialog({ title: 'Test 3', content: 'this is content' });
+    const result = await alertDialog({
+      title: 'Test 3',
+      content: 'this is content',
+      showCancel: false,
+    });
     toast({ title: '3: ' + result.toString(), variant: result ? 'default' : 'destructive' });
   };
 
@@ -32,127 +36,7 @@ const DashboardPage = () => {
         <div className="space-x-2">
           <Button onClick={confirmHandle}>confirm1</Button>
           <Button onClick={confirmHandle2}>confirm2</Button>
-          <Button onClick={confirmHandle3}>confirm3</Button>
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
-        </div>
-        <div className="rounded border p-2">
-          Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard Dashboard
+          <Button onClick={confirmHandle3}>only ok</Button>
         </div>
       </div>
     </Page>
